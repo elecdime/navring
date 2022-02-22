@@ -1,0 +1,311 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.bbs.mapper.boardMapper">
+
+
+	<select id="board" resultType="com.bbs.domain.bbsDTO" >
+	select
+		b.bbsno, b.title,
+		b.cateCode, c.cateCodeRef, c.cateName, writer,
+		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
+		,title,notice
+		from board_jh b
+		inner join
+		categori_jh c
+		on b.cateCode =
+		c.cateCode
+		order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
+		
+	
+	</select>
+	<select id="boardView" resultType="com.bbs.domain.bbsDTO">
+		select
+		b.bbsno, b.title,
+		b.cateCode, c.cateCodeRef, c.cateName, writer,bbsgroup,bbsstep,bbsDent,
+		endDate,regDate,viewCnt
+		,content, b.img,b.imgs
+		from board_jh b
+		inner join categori_jh c
+		on
+		b.cateCode = c.cateCode
+		where b.bbsno =#{bbsno}
+	</select>
+
+	<insert id="boardinsert">
+
+	insert into board_jh
+	(bbsno,writer,title,content,bbsGroup,bbsStep,bbsDent,cateCode,img,imgs,notice,startDate,endDate)
+	VALUES
+	(BOARD_JH_SEQ.nextval,#{writer},#{title},#{content},(select max(bbsno)+1 from board_jh),0,0,#{cateCode,
+	jdbcType=VARCHAR},#{img},#{imgs},#{notice},#{startDate},#{endDate})
+
+	</insert>
+	<select id="categori" resultType="com.bbs.domain.CategoriDTO">
+		select level, cateName,
+		cateCode, cateCodeRef from categori_jh
+		start with cateCodeRef is null
+		connect by prior cateCode = cateCodeRef
+
+
+	</select>
+	<update id="boardupdate">
+		update board_jh
+		set
+
+		cateCode = #{cateCode},
+		title =
+		#{title},
+		writer = #{writer},
+		content = #{content},
+		regDate = SYSDATE ,
+		img = #{img},
+		imgs = #{imgs}
+		where bbsno = #{bbsno}
+
+	</update>
+	<delete id="boarddelete">
+		delete
+		board_jh
+		where bbsno = #{bbsno}
+	</delete>
+	<update id="viewcnt">
+		update board_jh
+		set
+		viewCnt = viewcnt+1
+		where
+		bbsno
+		=#{bbsno}
+
+
+	</update>
+	<update id="notice1">
+		  <![CDATA[
+		update board_jh
+		set notice = 1
+		where startdate <= sysdate and sysdate-1 <= enddate
+			]]>
+	</update>
+	<update id="notice2">
+		<![CDATA[
+		update board_jh
+		set notice = 0
+		where sysdate > enddate
+		]]>
+	</update>
+	    <insert id="insertFile" parameterType="hashMap">
+		INSERT INTO file_jh(
+			FILE_NO,
+			bbsno,
+			orgfile,
+			savefile
+		
+		)VALUES(
+			file_no_seq.NEXTVAL,
+			(select max(bbsno)+1 from board_jh) ,
+			#{orgfile},
+			#{savefile}
+	
+		)
+    </insert>
+   <!-- 첨부파일 조회 -->
+<select id="selectFileList" parameterType="int"
+	resultType="hashMap">
+		<![CDATA[
+	
+     SELECT FILE_NO,
+		   orgfile ,savefile,
+           del_file
+	  FROM file_jh
+	 WHERE bbsno = #{bbsno}
+     AND del_file ='N'
+	]]>
+</select>
+<select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+	SELECT 
+		savefile,
+		orgfile
+	FROM file_jh
+	WHERE FILE_NO = #{file_no}
+</select>
+ <update id="updateFile" parameterType="hashMap">
+    	UPDATE file_jh SET
+    	delfile = 'Y'
+    	WHERE file_no = #{file_no}
+    </update>
+    
+
+	<insert id="replyinsert">
+   INSERT 
+    INTO board_jh
+    (
+          bbsno
+        , bbsGroup
+        , bbsStep
+        , bbsDent
+        , writer
+        , title
+        , content
+  
+     
+    ) 
+    VALUES 
+    (
+         BOARD_JH_SEQ.nextval
+      , #{bbsGroup}
+       , #{bbsStep} + 1
+       , #{bbsDent} + 1
+       , #{writer}
+       , #{title}
+       , #{content}
+      
+    )
+
+	</insert>
+
+	<update id="replyupdate">
+		    UPDATE board_jh
+       SET bbsDent = bbsDent + 1
+    WHERE bbsGroup = #{bbsGroup} 
+      AND bbsDent > #{bbsDent}
+
+	</update>
+    
+	<update id="nofile">
+		<![CDATA[
+	update file_jh
+    set del_file='y'
+    where bbsno > ( 
+  	select  Max(bbsno) from board_jh)
+ 
+		]]>
+	</update>
+	
+		    <insert id="uploadfile" parameterType="hashMap">
+		INSERT INTO file_jh(
+			FILE_NO,
+			bbsno,
+			orgfile,
+			savefile
+		
+		)VALUES(
+			file_no_seq.NEXTVAL,
+			#{bbsno} ,
+			#{orgfile},
+			#{savefile}
+	
+		)
+    </insert>
+    <select id="count" resultType="int">
+ select count(bbsno) from board_jh
+</select>
+<select id="listPage" resultType="com.bbs.domain.bbsDTO"
+parameterType="com.bbs.domain.Criteria">
+	<![CDATA[
+		select
+		b.bbsno, b.title,
+		b.cateCode, c.cateCodeRef, c.cateName, writer,
+		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
+		,title,notice
+		from board_jh b
+		inner join
+		categori_jh c
+		on b.cateCode =
+		c.cateCode
+		where notice = 1
+
+union
+	
+	
+select
+b.bbsno, b.title,
+b.cateCode, c.cateCodeRef, c.cateName, b.writer,
+b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.bbsstep,b.bbsDent
+,b.title,b.notice
+from(
+    select bbsno, title, content, writer, regDate, viewCnt
+       from (
+           select bbsno, title, content, writer, regDate, viewCnt,
+               row_number() over(order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc) as rNum
+           from board_jh
+     ) mb
+    where rNum between #{rowStart} and #{rowEnd}
+        order by bbsno desc
+    ) rn
+  inner join board_jh b
+    on b.bbsno = rn.bbsno
+  inner join categori_jh c
+on b.cateCode = c.cateCode
+order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
+        	]]>
+</select>
+
+<select id="listSearch" resultType="com.bbs.domain.bbsDTO"
+	parameterType="com.bbs.domain.Criteria">
+
+
+		select
+		b.bbsno, b.title,
+		b.cateCode, c.cateCodeRef, c.cateName, writer,
+		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
+		,title,notice
+		from board_jh b
+		inner join
+		categori_jh c
+		on b.cateCode =
+		c.cateCode
+		where notice = 1
+
+union
+	
+	
+select
+b.bbsno, b.title,
+b.cateCode, c.cateCodeRef, c.cateName, b.writer,
+b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.bbsstep,b.bbsDent
+,b.title,b.notice
+from(
+    select bbsno, title, content, writer, regDate, viewCnt
+       from (
+           select bbsno, title, content, writer, regDate, viewCnt,
+               row_number() over(order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc) as rNum
+           from board_jh
+           		<include refid="search"></include>
+           
+     ) mb
+    where rNum between #{rowStart} and #{rowEnd}
+        order by bbsno desc
+    ) rn
+  inner join board_jh b
+    on b.bbsno = rn.bbsno
+  inner join categori_jh c
+on b.cateCode = c.cateCode
+order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
+        
+
+</select>
+<sql id="search">
+	<if test="searchType != null">
+		<if test="searchType == 't'.toString()">where title like '%' || #{keyword} || '%'</if>
+		<if test="searchType == 'c'.toString()">where content like '%' || #{keyword} || '%'</if>
+		<if test="searchType == 'w'.toString()">where writer like '%' || #{keyword} || '%'</if>
+		<if test="searchType == 'tc'.toString()">where (title like '%' || #{keyword} || '%')
+													or (content like '%' || #{keyword} || '%')</if>
+	</if>
+</sql>
+
+
+
+
+
+
+<select id="countSearch" resultType="int">
+	select count(bbsno)
+		from board_jh
+			<include refid="search"></include>
+<![CDATA[
+			and bbsno > 0
+]]>
+</select>
+
+
+</mapper>
