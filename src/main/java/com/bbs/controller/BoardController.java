@@ -4,19 +4,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.redirectedUrl;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.request;
 
+import java.io.BufferedInputStream;
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.PrintWriter;
+import java.net.URLConnection;
 import java.net.URLEncoder;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
+import javax.activation.CommandMap;
 import javax.annotation.Resource;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
@@ -28,6 +33,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.FileCopyUtils;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -58,53 +64,36 @@ public class BoardController {
 	private String uploadPath;
 	private static final Logger logger = LoggerFactory.getLogger(BoardController.class); 
 	
-	@RequestMapping(value="board/boardlist", method=RequestMethod.GET)
-	    public String boardList(
-	    		bbsDTO bbsDTO, Model model ,HttpServletRequest re) throws Exception {
-		FileDTO fileDTO = new FileDTO();
-		
 
-		
-		
-		List<bbsDTO> list = boardListService.boardList(bbsDTO);
-				      
-		boardListService.notice1();
-		boardListService.notice2();
-
-	    model.addAttribute("list", list);
-	   
-	        return "board/boardlist";
-	    }
-	  
+	  //게시글조회
 	  @RequestMapping(value="board/boardview", method=RequestMethod.GET)
 	    public String boardview(@RequestParam("n") int bbsno, Model model,bbsDTO bbsDTO,@ModelAttribute("scri") SearchCriteria scri) throws Exception {
 	       	bbsDTO bbs = boardListService.boardView(bbsno);
 	       	
 	       	
 	       	model.addAttribute("bbs", bbs);
-	       	
+	       	//파일리스트 가져오기
 	    	List<Map<String, Object>> fileList = boardListService.selectFileList(bbs.getBbsno());
-	    	System.out.println(fileList);
-	    	System.out.println(fileList);
-	    	System.out.println(fileList);
+	    	
 	    	model.addAttribute("file", fileList);
-	    	   model.addAttribute("scri", scri); 
+	    	//페이징 유지
+	    	model.addAttribute("scri", scri); 
 	    	return "board/boardview";
 	    }
 	  @RequestMapping(value = "/board/boardinsert", method = RequestMethod.GET)
 	  public void boardinsert(Model model,bbsDTO bbsDTO) throws Exception {
 		 
 		
-		  
+		  //카테고리 
 		  List<CategoriDTO> category = null;
 		  category = boardListService.categori();
 		  model.addAttribute("category", JSONArray.fromObject(category));
 	   	  }
-	  
+	  //게시글 작성기능
 	  @RequestMapping(value = "/board/boardinsert", method = RequestMethod.POST)
 	  public String boardinsertp(bbsDTO bbsDTO,MultipartFile file) throws  Exception {
 		  
-		 
+		  // 계층형 게시판을위한 작업
 		  int bbsGroup = bbsDTO.getBbsGroup();
 	      bbsDTO.setBbsGroup(bbsGroup);
 		 	
@@ -114,48 +103,56 @@ public class BoardController {
 	      
 		  boardListService.boardinsert(bbsDTO);
 		  
-		  return "redirect:/board/boardlist";
+		  return "redirect:/board/listSearch?page=1&perPageNum=10&searchType=t&keyword=";
 		  
 	  }
+	  
+	   //업데이트
 	  @RequestMapping(value = "/board/boardupdate", method = RequestMethod.GET)
 	  public void boardupdate(@RequestParam("n") int bbsno,Model model,@ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) throws Exception {
+		  //파일리스트 가져오기
 		  List<Map<String, Object>> fileList = boardListService.selectFileList(bbsno);
-	    	System.out.println(fileList);
-	    	System.out.println(fileList);
-	    	System.out.println(fileList);
-	    	model.addAttribute("file", fileList);
-		  
-		  
-		  
+	
+	     model.addAttribute("file", fileList);
+		  //board_jh 게시판조회
+	      bbsDTO bbsDTO = new bbsDTO();		 
+		  bbsDTO.setBbsno(bbsno);
+		  System.out.println(bbsDTO.getBbsno());
 		  bbsDTO bbs = boardListService.boardView(bbsno);
 		  model.addAttribute("bbs", bbs);
-	    	
+	      //카테고리 가져오기	
 		  List<CategoriDTO> category = null;
 		  category = boardListService.categori();
 		  model.addAttribute("category", JSONArray.fromObject(category));
-		   model.addAttribute("scri", scri); 
+		  //페이징 유지 
+		  model.addAttribute("scri", scri); 
 		  System.out.println(bbs.getCateName());
 	   	  }
 	
+	  
+	  
 	  @RequestMapping(value = "/board/boardupdate", method = RequestMethod.POST)
 	  public String boardupdate(bbsDTO bbsDTO ,MultipartFile file , HttpServletRequest req,@ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr) throws Exception  {
-		int bbsno =  bbsDTO.getBbsno() ; 		//
+	
+		//페이징 유지
 		rttr.addAttribute("page", scri.getPage());
 		rttr.addAttribute("perPageNum", scri.getPerPageNum());
 		rttr.addAttribute("searchType", scri.getSearchType());
 		rttr.addAttribute("keyword", scri.getKeyword());
 
-	   boardListService.boardupdate(bbsDTO);
-	   return "redirect:/board/boardlist";
+		   boardListService.boardupdate(bbsDTO);
+	   return "redirect:/board/listSearch";
 	  }
 	  @RequestMapping(value = "/board/boarddelete", method = RequestMethod.POST)
 	  public String boarddelete(@RequestParam("n") int bbsno,@ModelAttribute("scri") SearchCriteria scri, RedirectAttributes rttr)  {
 	   boardListService.boardelete(bbsno);
+	
+	
 	   rttr.addAttribute("page", scri.getPage());
 	   rttr.addAttribute("perPageNum", scri.getPerPageNum());
 	   rttr.addAttribute("searchType", scri.getSearchType());
 	   rttr.addAttribute("keyword", scri.getKeyword());
-		  	return "redirect:/board/boardlist";
+		  	return "redirect:/board/listSearch";
 	  }
 	// ck 에디터에서 파일 업로드
 	  @RequestMapping(value = "/board/ckUpload", method = RequestMethod.POST)
@@ -206,22 +203,16 @@ public class BoardController {
 	   
 	   return; 
 	  }
-	  @RequestMapping("board/boardlistAJAX")
-	    public List<bbsDTO> boardlist(bbsDTO bbsDTO,Model model) {
-	        List<bbsDTO> data = boardListService.boardList(bbsDTO);
-	        model.addAttribute("data",data);
-	        
-	        return data;
-	    }
+
 	    
 	    
-	    @RequestMapping(value = "/fileUpload/post") //ajax에서 호출하는 부분
+	    @RequestMapping(value = "/fileUpload/post") //ajax에서 호출하는 부분 , 업로드
 	    @ResponseBody
 	    public String upload(MultipartHttpServletRequest multipartRequest,MultipartFile file , HttpServletRequest req,FileDTO fileDTO) { //Multipart로 받는다.
 	         
 	    	
 	    	
-	    	   UUID uid = UUID.randomUUID();
+	    	   UUID uid = UUID.randomUUID(); // 파일 이름 랜덤
 	    	
 	    	
 	        Iterator<String> itr =  multipartRequest.getFileNames();
@@ -230,11 +221,6 @@ public class BoardController {
 	        
 	        while (itr.hasNext()) { //받은 파일들을 모두 돌린다.
 	            
-	            /* 기존 주석처리
-	            MultipartFile mpf = multipartRequest.getFile(itr.next());
-	            String originFileName = mpf.getOriginalFilename();
-	            System.out.println("FILE_INFO: "+originFileName); //받은 파일 리스트 출력'
-	            */
 	        	
 	            
 	            MultipartFile mpf = multipartRequest.getFile(itr.next());
@@ -248,6 +234,7 @@ public class BoardController {
 	                //파일 저장
 	                mpf.transferTo(new File(fileFullPath)); 
 	                fileDTO.setOrgfile(originalFilename);
+	                //파일이름이 중복되지 않도록 랜덤으로 저장
 		            fileDTO.setSavefile(uuidfile);
 		           
 		            boardListService.fileupload(fileDTO);
@@ -266,80 +253,103 @@ public class BoardController {
 	         
 	        return "success";
 	    }
-	    @RequestMapping(value="/board/fileDown")
-		public void fileDown(@RequestParam Map<String, Object> map, HttpServletResponse response) throws Exception{
-			Map<String, Object> resultMap = boardListService.selectFileInfo(map);
-		
-			String storedFileName = (String) resultMap.get("SAVEFILE");
-			String originalFileName = (String) resultMap.get("ORGFILE");
-			System.out.println(storedFileName);
-			System.out.println(originalFileName);
-			System.out.println(uploadPath);
-			// 파일을 저장했던 위치에서 첨부파일을 읽어 byte[]형식으로 변환한다.
-			byte fileByte[] = org.apache.commons.io.FileUtils.readFileToByteArray(new File(uploadPath+"/upload"+storedFileName));
+	    //파일 다운로드
+	    @RequestMapping(value="/board/fileDown", method = RequestMethod.GET)
+		public void fileDown(@RequestParam("IDX")int idx,HttpServletResponse response,String fileNm, String originalFileNm,FileDTO fileDTO) throws Exception{
+	    	//Map안에 파일정보 담아둠.	
+	    	Map<String, Object> list =  boardListService.selectFileInfo(idx);
+	    	
+	    	  
+	    	 //원본파일이름 
+	    	String fileName =  (String) list.get("ORGFILE");
+	    	//파일이 저장된경로
+	  		String saveFileName = uploadPath+"/upload/"+list.get("SAVEFILE"); 
+
+
+	  		response.setHeader("Content-Disposition", "attachment; filename=\"" + fileName + "\";");
+	  		response.setHeader("Content-Transfer-Encoding", "binary");
+	  
+	  		response.setHeader("Pragma", "no-cache;");
+	  		response.setHeader("Expires", "-1;");
+
+	  		try(
+	  				FileInputStream fis = new FileInputStream(saveFileName);
+	  				OutputStream out = response.getOutputStream();
+	  				){
+	  			int readCount = 0;
+	  			byte[] buffer = new byte[1024];
+	  			while((readCount = fis.read(buffer)) != -1){
+	  				out.write(buffer,0,readCount);
+	  			}
+	  		}catch(Exception ex){
+	  			throw new RuntimeException("file Save Error");
+	  		}
+	    	  
+	    	  
+	    	  
+	    	  
+	    	 
 			
-			response.setContentType("application/octet-stream");
-			response.setContentLength(fileByte.length);
-			response.setHeader("Content-Disposition",  "attachment; fileName=\""+URLEncoder.encode(originalFileName, "UTF-8")+"\";");
-			response.getOutputStream().write(fileByte);
-			response.getOutputStream().flush();
-			response.getOutputStream().close();
-			
+	  		
 		}
+	    
+	    //답글 게시판
 	    @RequestMapping(value = "/board/reply", method = RequestMethod.GET)
 		  public void replyinsert(@RequestParam("n") int bbsno,Model model) {
 	    
 	    	
 	    	bbsDTO bbs = boardListService.boardView(bbsno);
-			  model.addAttribute("bbs", bbs);
+			model.addAttribute("bbs", bbs);
 			  
 		   	  }
+	    
+	     //답글작성
 		  @RequestMapping(value = "/board/reply", method = RequestMethod.POST)
 		  public String replyinsert(bbsDTO bbsDTO) throws Exception  {
-			 System.out.println(bbsDTO.getTitle()+bbsDTO.getBbsno()+bbsDTO.getBbsDent()+bbsDTO.getBbsGroup()+bbsDTO.getBbsStep());
-			 System.out.println(bbsDTO.getTitle());
-			 System.out.println(bbsDTO.getTitle());
-			 System.out.println(bbsDTO.getTitle());
-
-			  
+			 		  
 
 		   boardListService.replyinsert(bbsDTO);
-		   return "redirect:/board/boardlist";
+		   return "redirect:/board/listSearch?page=1&perPageNum=10&searchType=t&keyword=";
 		  }
-		  @RequestMapping(value = "/fileupdate/post") //ajax에서 호출하는 부분
+		  
+		  
+		    @RequestMapping(value = "/fileupdate/post") //ajax에서 호출하는 부분
 		    @ResponseBody
-		    public String update(MultipartHttpServletRequest multipartRequest,MultipartFile file , HttpServletRequest req,FileDTO fileDTO) { //Multipart로 받는다.
+		    public String update(MultipartHttpServletRequest multipartRequest,MultipartFile file , HttpServletRequest req,FileDTO fileDTO) { 
 		         
 		    	
 		    	
-		        return "a";
+		      return "a";
 		  }
-			@RequestMapping(value="/board/listPage", method=RequestMethod.GET)
-		    public String listpage(Criteria cri ,Model model) throws Exception {
-
-			      
-				boardListService.notice1();
-				boardListService.notice2();
-
-			
-			List<bbsDTO> list = boardListService.listPage(cri);
-		
-		    model.addAttribute("list", list);
-		    
-		    PageMaker pageMaker = new PageMaker();
-		    pageMaker.setCri(cri);
-		    pageMaker.setTotalCount(boardListService.count());
-		    model.addAttribute("pageMaker", pageMaker);
-		        
-		        return "board/boardlist";
-		    }
 			
 			
 			// 글 목록 + 페이징 + 검색
 			@RequestMapping(value = "/board/listSearch", method = RequestMethod.GET)
-			public void listPage(@ModelAttribute("scri") SearchCriteria scri, Model model,bbsDTO bbsDTO ,HttpServletRequest re) throws Exception {
+			public void listPage(@ModelAttribute("scri") SearchCriteria scri, Model model,bbsDTO bbsDTO ,HttpServletRequest re,FileDTO fileDTO) throws Exception {
 			 logger.info("get list search");
-			 
+		     //공지사항 기간 상단고정,상단고정해제,delfill= 'y' 인 친구들 실제경로에서 삭제후 SQL에서도 삭제.
+			 boardListService.notice1();
+			 boardListService.notice2();
+				
+				List<FileDTO> filelist = boardListService.delfiley(fileDTO);
+						//파일삭제
+						for(int i=0;i < filelist.size();i++) {
+				
+					 
+					 //파일의 실제경로
+					 String filePath = uploadPath+"/upload/"+filelist.get(i).getSavefile();
+		
+					 File delfile = new File(filePath);
+					 if(delfile.exists()) {
+						 delfile.delete();
+						 System.out.println(i+"개의 파일삭제완료");
+					 }else {
+					 System.out.println("삭제할 파일x");
+				}
+					 }
+				
+			
+			//페이징,검색,리스트 조회
 			 List<bbsDTO> list = boardListService.listSearch(scri);
 			 model.addAttribute("list", list);
 			 
@@ -349,5 +359,72 @@ public class BoardController {
 			 pageMaker.setTotalCount(boardListService.countSearch(scri));
 			 model.addAttribute("pageMaker", pageMaker);
 			}
+			
+			//파일 업데이트
+			@RequestMapping(value = "/fileupDate/post") //ajax에서 호출하는 부분
+			@ResponseBody
+			    public String fileupdate(bbsDTO bbsDTO,MultipartHttpServletRequest multipartRequest,MultipartFile file , HttpServletRequest req,FileDTO fileDTO ) { //Multipart로 받는다.
+			
+				 int bbsno= bbsDTO.getBbsno();
+				 //파일 재등록시 파일이름 랜덤으로
+				 UUID uid = UUID.randomUUID();
+			    	
+			    	
+			        Iterator<String> itr =  multipartRequest.getFileNames();
+			        
+			        String filePath = uploadPath+"/upload" ;//파일 경로
+			        
+			        while (itr.hasNext()) { //받은 파일들을 모두 돌린다.
+			            
+			            /* 기존 주석처리
+			            MultipartFile mpf = multipartRequest.getFile(itr.next());
+			            String originFileName = mpf.getOriginalFilename();
+			            System.out.println("FILE_INFO: "+originFileName); //받은 파일 리스트 출력'
+			            */
+			        	
+			            
+			            MultipartFile mpf = multipartRequest.getFile(itr.next());
+			     
+			            String originalFilename = mpf.getOriginalFilename(); //파일명
+			            String uuidfile = originalFilename+uid;
+			            String fileFullPath = filePath+"/"+uuidfile; //파일 전체 경로
+			            	
+			     
+			            try {
+			                //파일 저장
+			                mpf.transferTo(new File(fileFullPath)); 
+			                fileDTO.setOrgfile(originalFilename); 
+				            fileDTO.setSavefile(uuidfile);
+				            fileDTO.setBbsno(bbsno);
+				            boardListService.updatefile(fileDTO);
+			                System.out.println("originalFilename => "+originalFilename);
+			                System.out.println("fileFullPath => "+fileFullPath);
+			     
+			            } catch (Exception e) {
+			                System.out.println("postTempFile_ERROR======>"+fileFullPath);
+			                e.printStackTrace();
+			            }
+			                         
+			       }
+			        
+			        
+			   return "a";
+			}	
+			
+		
+			//파일수정에서 파일삭제
+		
+			@RequestMapping("/board/deleteBoardFile" )
+			public String deleteBoardFile(@RequestParam int num, @RequestParam int boardIdx,HttpServletRequest req,@ModelAttribute("scri") SearchCriteria scri,RedirectAttributes rttr) throws Exception {
+				boardListService.delfile(num);
+				
+				//페이징 유지
+				rttr.addAttribute("page", scri.getPage());
+				rttr.addAttribute("perPageNum", scri.getPerPageNum());
+				rttr.addAttribute("searchType", scri.getSearchType());
+				rttr.addAttribute("keyword", scri.getKeyword());
+				
+				return "redirect:/board/boardview?n="+boardIdx;
+			}
+			
 }
-

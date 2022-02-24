@@ -3,27 +3,13 @@
 <mapper namespace="com.bbs.mapper.boardMapper">
 
 
-	<select id="board" resultType="com.bbs.domain.bbsDTO" >
-	select
-		b.bbsno, b.title,
-		b.cateCode, c.cateCodeRef, c.cateName, writer,
-		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
-		,title,notice
-		from board_jh b
-		inner join
-		categori_jh c
-		on b.cateCode =
-		c.cateCode
-		order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
-		
 	
-	</select>
 	<select id="boardView" resultType="com.bbs.domain.bbsDTO">
 		select
 		b.bbsno, b.title,
-		b.cateCode, c.cateCodeRef, c.cateName, writer,bbsgroup,bbsstep,bbsDent,
+		b.cateCode, c.cateCodeRef, c.cateName, writer,bbsgroup,bbsDent,
 		endDate,regDate,viewCnt
-		,content, b.img,b.imgs
+		,content
 		from board_jh b
 		inner join categori_jh c
 		on
@@ -34,10 +20,10 @@
 	<insert id="boardinsert">
 
 	insert into board_jh
-	(bbsno,writer,title,content,bbsGroup,bbsStep,bbsDent,cateCode,img,imgs,notice,startDate,endDate)
+	(bbsno,writer,title,content,bbsGroup,BOARD_PARENT,cateCode,notice,startDate,endDate)
 	VALUES
-	(BOARD_JH_SEQ.nextval,#{writer},#{title},#{content},(select max(bbsno)+1 from board_jh),0,0,#{cateCode,
-	jdbcType=VARCHAR},#{img},#{imgs},#{notice},#{startDate},#{endDate})
+	(BOARD_JH_SEQ.nextval,#{writer},#{title},#{content},(select max(bbsno)+1 from board_jh),0,#{cateCode,
+	jdbcType=VARCHAR},#{notice},#{startDate},#{endDate})
 
 	</insert>
 	<select id="categori" resultType="com.bbs.domain.CategoriDTO">
@@ -57,9 +43,8 @@
 		#{title},
 		writer = #{writer},
 		content = #{content},
-		regDate = SYSDATE ,
-		img = #{img},
-		imgs = #{imgs}
+		regDate = SYSDATE 
+		
 		where bbsno = #{bbsno}
 
 	</update>
@@ -67,6 +52,9 @@
 		delete
 		board_jh
 		where bbsno = #{bbsno}
+		or board_parent =#{bbsno}
+		or bbsgroup = #{bbsno}
+		
 	</delete>
 	<update id="viewcnt">
 		update board_jh
@@ -92,7 +80,7 @@
 		where sysdate > enddate
 		]]>
 	</update>
-	    <insert id="insertFile" parameterType="hashMap">
+	    <insert id="insertfile" parameterType="hashMap">
 		INSERT INTO file_jh(
 			FILE_NO,
 			bbsno,
@@ -118,21 +106,16 @@
 	  FROM file_jh
 	 WHERE bbsno = #{bbsno}
      AND del_file ='N'
+     order by file_no asc
 	]]>
 </select>
-<select id="selectFileInfo" parameterType="hashMap" resultType="hashMap">
+<select id="selectFileInfo" parameterType="Map" resultType="hashMap">
 	SELECT 
 		savefile,
 		orgfile
 	FROM file_jh
 	WHERE FILE_NO = #{file_no}
 </select>
- <update id="updateFile" parameterType="hashMap">
-    	UPDATE file_jh SET
-    	delfile = 'Y'
-    	WHERE file_no = #{file_no}
-    </update>
-    
 
 	<insert id="replyinsert">
    INSERT 
@@ -140,8 +123,8 @@
     (
           bbsno
         , bbsGroup
-        , bbsStep
         , bbsDent
+        , board_parent
         , writer
         , title
         , content
@@ -152,8 +135,8 @@
     (
          BOARD_JH_SEQ.nextval
       , #{bbsGroup}
-       , #{bbsStep} + 1
        , #{bbsDent} + 1
+       , #{bbsno}
        , #{writer}
        , #{title}
        , #{content}
@@ -162,14 +145,6 @@
 
 	</insert>
 
-	<update id="replyupdate">
-		    UPDATE board_jh
-       SET bbsDent = bbsDent + 1
-    WHERE bbsGroup = #{bbsGroup} 
-      AND bbsDent > #{bbsDent}
-
-	</update>
-    
 	<update id="nofile">
 		<![CDATA[
 	update file_jh
@@ -180,73 +155,20 @@
 		]]>
 	</update>
 	
-		    <insert id="uploadfile" parameterType="hashMap">
-		INSERT INTO file_jh(
-			FILE_NO,
-			bbsno,
-			orgfile,
-			savefile
-		
-		)VALUES(
-			file_no_seq.NEXTVAL,
-			#{bbsno} ,
-			#{orgfile},
-			#{savefile}
-	
-		)
-    </insert>
+    
     <select id="count" resultType="int">
  select count(bbsno) from board_jh
 </select>
-<select id="listPage" resultType="com.bbs.domain.bbsDTO"
-parameterType="com.bbs.domain.Criteria">
-	<![CDATA[
-		select
-		b.bbsno, b.title,
-		b.cateCode, c.cateCodeRef, c.cateName, writer,
-		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
-		,title,notice
-		from board_jh b
-		inner join
-		categori_jh c
-		on b.cateCode =
-		c.cateCode
-		where notice = 1
 
-union
-	
-	
-select
-b.bbsno, b.title,
-b.cateCode, c.cateCodeRef, c.cateName, b.writer,
-b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.bbsstep,b.bbsDent
-,b.title,b.notice
-from(
-    select bbsno, title, content, writer, regDate, viewCnt
-       from (
-           select bbsno, title, content, writer, regDate, viewCnt,
-               row_number() over(order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc) as rNum
-           from board_jh
-     ) mb
-    where rNum between #{rowStart} and #{rowEnd}
-        order by bbsno desc
-    ) rn
-  inner join board_jh b
-    on b.bbsno = rn.bbsno
-  inner join categori_jh c
-on b.cateCode = c.cateCode
-order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
-        	]]>
-</select>
 
 <select id="listSearch" resultType="com.bbs.domain.bbsDTO"
 	parameterType="com.bbs.domain.Criteria">
 
 
-		select
+select 
 		b.bbsno, b.title,
 		b.cateCode, c.cateCodeRef, c.cateName, writer,
-		endDate,regDate,viewCnt,bbsgroup,bbsstep,bbsDent
+		endDate,regDate,viewCnt,bbsgroup,board_parent,bbsDent
 		,title,notice
 		from board_jh b
 		inner join
@@ -254,37 +176,44 @@ order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc
 		on b.cateCode =
 		c.cateCode
 		where notice = 1
-
+		
 union
 	
 	
-select
+select 
 b.bbsno, b.title,
 b.cateCode, c.cateCodeRef, c.cateName, b.writer,
-b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.bbsstep,b.bbsDent
+b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.board_parent,b.bbsDent
 ,b.title,b.notice
 from(
     select bbsno, title, content, writer, regDate, viewCnt
        from (
-           select bbsno, title, content, writer, regDate, viewCnt,
-               row_number() over(order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc) as rNum
+           select bbsno, title, content, writer, regDate, viewCnt,level,
+              
+              row_number() over(order by bbsgroup desc, board_parent desc ,bbsno asc) as rNum
+              
            from board_jh
-           		<include refid="search"></include>
-           
+        	<include refid="search"></include>
+             START with board_parent = 0
+        CONNECT BY PRIOR bbsno=board_parent
+           		
      ) mb
+     
     where rNum between #{rowStart} and #{rowEnd}
-        order by bbsno desc
+    order by bbsno
     ) rn
   inner join board_jh b
     on b.bbsno = rn.bbsno
   inner join categori_jh c
 on b.cateCode = c.cateCode
-order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc 
+order  BY notice desc, bbsno
+
+
         
 
 </select>
 <sql id="search">
-	<if test="searchType != null">
+        <if test="searchType != null">
 		<if test="searchType == 't'.toString()">where title like '%' || #{keyword} || '%'</if>
 		<if test="searchType == 'c'.toString()">where content like '%' || #{keyword} || '%'</if>
 		<if test="searchType == 'w'.toString()">where writer like '%' || #{keyword} || '%'</if>
@@ -306,6 +235,43 @@ order by notice desc,  bbsgroup desc , bbsdent asc ,bbsno asc
 			and bbsno > 0
 ]]>
 </select>
+    <insert id="updatefile" parameterType="hashMap">
+		INSERT INTO file_jh(
+			FILE_NO,
+			bbsno,
+			orgfile,
+			savefile
+		
+		)VALUES(
+			file_no_seq.NEXTVAL,
+			#{bbsno} ,
+			#{orgfile},
+			#{savefile}
+	
+		)
+    </insert>
+    	<update id="delfile">
+		<![CDATA[
+	update file_jh
+    set del_file='y'
+    where file_no = #{file_no}
+ 
+		]]>
+	</update>
 
+    <select id="delfiley" resultType="com.bbs.domain.FileDTO">
+select * from file_jh
+where del_file='y'
+</select>
 
+<delete id="sqlfiledel">
+DELETE FROM file_jh
+where del_file='y'
+
+</delete>
+ 	<update id="delbbsfile">
+ 	update file_jh
+    set del_file='y'
+    where bbsno = #{bbsno}
+ 	</update>
 </mapper>

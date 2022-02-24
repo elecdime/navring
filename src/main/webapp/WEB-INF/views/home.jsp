@@ -12,5 +12,7 @@
 </h1>
 
 <P>  The time on the server is ${serverTime}. </P>
+
+<a href="${pageContext.request.contextPath}/board/listSearch?page=1&perPageNum=10&searchType=t&keyword="> List </a>
 </body>
 </html>

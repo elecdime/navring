@@ -27,12 +27,12 @@
 <div class="inputArea"> 
  <label>1차 분류</label>
  <select class="category1">
-  <option value="">전체</option>
+  <option value=0"">전체</option>
  </select>
 
  <label>2차 분류</label>
  <select class="category2" name="cateCode">
-  <option value="">전체</option>
+  <option value="00">전체</option>
  </select>
  <label>공지사항 등록</label>
  <input type="radio" id="bbb" name="abcd" value="10" onchange="setDisplay()"> none
@@ -97,7 +97,7 @@
 
 </div> -->
  <div class="inputArea">
- <button type="submit" id="register_Btn" class="btn btn-primary">등록</button>
+ <button type="submit" nmae="register_Btn" id="register_Btn" class="btn btn-primary">등록</button>
 </div>
  </from>
  
@@ -106,9 +106,6 @@
         <input type="file" name="fileUpload" id="fileUpload" style="display:none;" multiple/>
  
  
-            </tbody>
-        </table>
-    </form>
         
     <a href="#" onclick="uploadFile(); return false;" class="btn bg_01">파일 업로드</a>
 

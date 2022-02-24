@@ -104,7 +104,8 @@
                     }
                 }
                 
-                function sendFileToServer(formData,status)
+               function sendFileToServer(formData,status)
+				
                 {
                     var uploadURL = "/web/fileUpload/post"; //Upload URL
                     var extraData ={}; //Extra Data.
@@ -131,6 +132,8 @@
                         processData: false,
                         cache: false,
                         data: formData,
+
+                           
                         success: function(data){
                             status.setProgress(100);
                  

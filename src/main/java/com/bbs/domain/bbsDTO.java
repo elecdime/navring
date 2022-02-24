@@ -16,13 +16,19 @@ public class bbsDTO {
 	private int bbsGroup ;
 	private int bbsStep;
 	private int bbsDent,cateCode;
-	private String cateName,cateCodeRef,img,imgs,board_parent_seq; 
+	private String cateName,cateCodeRef,img,imgs,board_parent_seq,board_parent; 
 	
 	//페이징
 	
 	
 	
 	
+	public String getBoard_parent() {
+		return board_parent;
+	}
+	public void setBoard_parent(String board_parent) {
+		this.board_parent = board_parent;
+	}
 	public String getBoard_parent_seq() {
 		return board_parent_seq;
 	}

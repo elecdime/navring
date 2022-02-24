@@ -14,7 +14,7 @@ import com.bbs.domain.SearchCriteria;
 import com.bbs.domain.bbsDTO;
 
 public interface boardListService {
-	public List<bbsDTO> boardList(bbsDTO bbsDTO);
+	
 
 	public bbsDTO boardView(int bbsno);
 
@@ -37,15 +37,18 @@ public interface boardListService {
 
 	public List<Map<String, Object>> selectFileList(int bno) throws Exception;
 
-	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception;
+	public Map<String, Object> selectFileInfo(int idx) throws Exception;
 
 	public void replyinsert(bbsDTO bbsDTO);
 
-	public void updatefile(int bbsno);
+	public void updatefile(FileDTO file)throws Exception;
 
 	public int count() throws Exception;
 	public List<bbsDTO> listPage(Criteria cri);
     public List<bbsDTO> listSearch(SearchCriteria scri);
     public int countSearch(SearchCriteria scri);
+    public void delfile(int num);
+    public List<FileDTO> delfiley(FileDTO fileDTO);
+    
 
 }

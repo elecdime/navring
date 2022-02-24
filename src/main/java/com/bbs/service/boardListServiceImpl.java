@@ -25,13 +25,7 @@ public class boardListServiceImpl implements boardListService {
 	@Inject
 	private boardList dao;
 
-	@Override
-	public List<bbsDTO> boardList(bbsDTO bbsDTO) {
-		// TODO Auto-generated method stub
-		dao.replyupdate(bbsDTO);
-		return dao.boardList(bbsDTO);
-	}
-
+	
 	@Override
 	public bbsDTO boardView(int bbsno) {
 		// TODO Auto-generated method stub
@@ -89,20 +83,22 @@ public class boardListServiceImpl implements boardListService {
 		// TODO Auto-generated method stub
 		return dao.selectFileList(bno);
 	}@Override
-	public Map<String, Object> selectFileInfo(Map<String, Object> map) throws Exception {
+	public Map<String, Object> selectFileInfo(int idx) throws Exception {
 		// TODO Auto-generated method stub
-		return dao.selectFileInfo(map);
+		return dao.selectFileInfo(idx);
 	}@Override
 	public void replyinsert(bbsDTO bbsDTO) {
 		// TODO Auto-generated method stub
+		//dao.replyupdate(bbsDTO);
 		dao.replyinsert(bbsDTO);
+	
 
 		
 	}
 	@Override
-	public void updatefile(int bbsno) {
+	public void updatefile(FileDTO fileDTO) throws Exception {
 		// TODO Auto-generated method stub
-		dao.updatefile(bbsno);
+		dao.updateFiles(fileDTO);
 	}
 	@Override
 	public int count() throws Exception {
@@ -118,6 +114,17 @@ public class boardListServiceImpl implements boardListService {
 	}@Override
 	public List<bbsDTO> listSearch(SearchCriteria scri) {
 		// TODO Auto-generated method stub
+		dao.sqlfiledel();
 		return dao.listSearch(scri);
 	}
+@Override
+public void delfile(int num) {
+	// TODO Auto-generated method stub
+	dao.delfile(num);
+}@Override
+public List<FileDTO> delfiley(FileDTO fileDTO) {
+	// TODO Auto-generated method stub
+	return dao.delfiley(fileDTO);
+}
+	    
 }

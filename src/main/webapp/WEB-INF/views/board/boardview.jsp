@@ -8,16 +8,28 @@
 
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  
-  <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script
+	src="//cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
+<script
+	src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
+<link
+	href="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
+	rel="stylesheet"
+	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
+	crossorigin="anonymous">
+
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
   
   
-  <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+
 
 <title>Insert title here</title>
 
+<style type="text/css">
+.gdsDes img { max-width:600px; height:auto; }
 
+</style>
 
 
 
@@ -29,20 +41,7 @@
 <script type="text/javascript">
 
 
-</script> <form  role="form" method="post" autocomplete="off">
-			<input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
-			<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}" readonly="readonly" />
-			<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}" readonly="readonly" />
-			<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}" readonly="readonly" />
-			
-			<div class="form-group">
-				<label for="bno" class="col-sm-2 control-label">글 번호</label>
-				<div class="col-sm-10">
-					<input type="text" id="bno" name="bno" class="form-control" value="${bbs.bbsno}" readonly="readonly" />
-				</div>
-			</div>
-		
-		</form>
+</script> 
 
 
 
@@ -51,41 +50,88 @@
 <input type="hidden" name="s" value="${bbs.bbsGroup}" />
 <input type="hidden" name="f" value="${bbs.bbsStep}" />
 <input type="hidden" name="g" value="${bbs.bbsDent}" />
-<div class="inputArea"> 
- <label>1차 분류</label>
- <span class="category1"></span>        
- <label>2차 분류</label>
- <span class="category2">${bbs.cateCode}</span>
+		<input type="hidden" id="page" name="page" value="${scri.page}" readonly="readonly" />
+			<input type="hidden" id="perPageNum" name="perPageNum" value="${scri.perPageNum}" readonly="readonly" />
+			<input type="hidden" id="searchType" name="searchType" value="${scri.searchType}" readonly="readonly" />
+			<input type="hidden" id="keyword" name="keyword" value="${scri.keyword}" readonly="readonly" />
+
+
+
+
+
+
+
+
+<div class="container border border-info  " style="border: 1px''">
+
+
+<hr>
+<div class="row">
+  <b class="border-end"	> ${bbs.bbsno}<b>
+ <bclass="category2">${bbs.cateName}</b>
+
+<h1>${bbs.title}</h1>
+<hr>
+ <small class="fs-5">${bbs.writer}
+ </small><br><small class="fs-6">${bbs.regDate}</small>   <small>조회:${bbs.viewCnt}</small> 
+
+
 </div>
 
-<div class="inputArea">
- <label for="title">제목</label>
- <span>${bbs.title}</span>
-</div>
+	
+				<hr>
+				
+<div class="abcd border" >
 
-<div class="inputArea">
- <label for="title">제목</label>
- <span>${bbs.title}</span>
-</div>
-	<hr>
-				<span>파일 목록</span>
-				<div class="form-group" style="border: 1px solid #dbdbdb;">
+				
+				<div class="form-group dropdown" style="border: 1px solid #dbdbdb;">
+				<button class="btn btn-secondary dropdown-toggle btn-sm" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
+  							파일목록
+  								</button>
+  								<ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
 						<c:forEach var="file" items="${file}">
 						<input type="hidden" id="IDX" name="IDX" value="${file.FILE_NO}" > 
-					 <a href="/web/resources/upload/${file.SAVEFILE}" name="file" onclick="fn_downloadFile('${file.FILE_NO}'); return false;">${file.ORGFILE}</a><BR>
+					
+					<li> <a class="dropdown-item" href='<c:url value="/board/fileDown?IDX=${file.FILE_NO}"/>' name="file" >${file.ORGFILE}</a><BR>
 					</c:forEach>
+					  </ul>
 				</div>
-				
-				<hr>
 
 
-<div class="inputArea">
- <label for="content">내용</label>
- <span>${bbs.content}</span>
-   <img src="${pageContext.request.contextPath}/${bbs.img} " class="oriImg"/>
-   <img src="${pageContext.request.contextPath}/${bbs.imgs} " class="oriImg"/>
+
+
+
+
+ <pre >${bbs.content}
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+ 
+
+ 
+ 
+ </pre>
+ 
+ 
+ 
+ 
+
+
+
 </div>
 
+
+
+</div>
+<hr>
+				
+				
 <div class="inputArea">
 
  <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
@@ -122,7 +168,9 @@
 				+ "page=${scri.page}&perPageNum=${scri.perPageNum}"
 				+ "&searchType=${scri.searchType}&keyword=${scri.keyword}";					
 	});
- </script>
+
+
+	</script>
 
  
 </div>
