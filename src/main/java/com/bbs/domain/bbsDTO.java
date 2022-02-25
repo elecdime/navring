@@ -18,11 +18,8 @@ public class bbsDTO {
 	private int bbsDent,cateCode;
 	private String cateName,cateCodeRef,img,imgs,board_parent_seq,board_parent; 
 	
-	//페이징
-	
-	
-	
-	
+
+
 	public String getBoard_parent() {
 		return board_parent;
 	}

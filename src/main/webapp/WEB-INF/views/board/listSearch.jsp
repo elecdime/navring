@@ -49,7 +49,7 @@ a:hover {
 				<th>번호</th>
 				<th>제목</th>
 				<th>작성자</th>
-				<th>카테고리</th>
+		
 
 				<th>조회수</th>
 				<th>작성일</th>
@@ -112,7 +112,7 @@ a:hover {
 
 
 			<td>${bbs.writer}</td>
-			<td>${bbs.cateName }</td>
+
 
 
 			<td>${bbs.viewCnt}</td>

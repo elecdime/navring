@@ -165,48 +165,31 @@
 	parameterType="com.bbs.domain.Criteria">
 
 
-select 
-		b.bbsno, b.title,
-		b.cateCode, c.cateCodeRef, c.cateName, writer,
-		endDate,regDate,viewCnt,bbsgroup,board_parent,bbsDent
-		,title,notice
-		from board_jh b
-		inner join
-		categori_jh c
-		on b.cateCode =
-		c.cateCode
-		where notice = 1
-		
-union
-	
-	
-select 
-b.bbsno, b.title,
-b.cateCode, c.cateCodeRef, c.cateName, b.writer,
-b.endDate,b.regDate,b.viewCnt,b.bbsgroup,b.board_parent,b.bbsDent
-,b.title,b.notice
-from(
-    select bbsno, title, content, writer, regDate, viewCnt
-       from (
-           select bbsno, title, content, writer, regDate, viewCnt,level,
-              
-              row_number() over(order by bbsgroup desc, board_parent desc ,bbsno asc) as rNum
-              
-           from board_jh
-        	<include refid="search"></include>
-             START with board_parent = 0
+                                 SELECT * FROM
+                            (SELECT  ROWNUM AS rnum,
+                                 data.*
+                            FROM
+                                    (SELECT LEVEL,
+                                            bbsno,
+                                           title,
+                                           writer,                                       
+                                         content,
+                                            viewcnt,
+                                             bbsgroup,
+                                             BOARD_PARENT,
+                                            regDate,
+                                            notice,
+                                            startDate,
+                                            endDate,
+                                            bbsDent,cateCode
+                                  FROM board_jh
+                                          	 <include refid="search"></include>
+                                  START with board_parent = 0
         CONNECT BY PRIOR bbsno=board_parent
-           		
-     ) mb
-     
-    where rNum between #{rowStart} and #{rowEnd}
-    order by bbsno
-    ) rn
-  inner join board_jh b
-    on b.bbsno = rn.bbsno
-  inner join categori_jh c
-on b.cateCode = c.cateCode
-order  BY notice desc, bbsno
+       
+         ORDER SIBLINGS BY notice desc,regdate desc, bbsgroup ) 
+                            data)
+                  where rNum between #{rowStart} and #{rowEnd}
 
 
         
