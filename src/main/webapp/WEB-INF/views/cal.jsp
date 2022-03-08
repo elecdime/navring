@@ -35,7 +35,7 @@
                 <%for (Calendar vo : calendarList) {%>
                 {
                 	title : '<%=vo.getTitle()%>',
-                    start : '<%=vo.getStart()%>',
+                    start : '<%=vo.getStart1()%>',
                     end : '<%=vo.getEnd()%>',
                		url : '${pageContext.request.contextPath}/calview?n=<%=vo.getId()%>',
 

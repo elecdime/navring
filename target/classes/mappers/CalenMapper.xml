@@ -4,7 +4,7 @@
 
 <mapper namespace="com.bbs.mapper.CalenMapper">
 	<resultMap type="com.bbs.domain.Calendar" id="calMap">
-		<result property="start" column="start1"/>
+		<result property="start1" column="start1"/>
 		<result property="end" column="end1"/>
 	</resultMap>
 	<select id="calenList" resultMap="calMap">
