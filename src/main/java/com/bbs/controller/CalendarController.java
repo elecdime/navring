@@ -1,5 +1,7 @@
 package com.bbs.controller;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
+
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.IOException;
@@ -7,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
 
@@ -14,6 +17,10 @@ import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.json.JSONObject;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,14 +41,17 @@ import com.bbs.service.CalenService;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonParser;
+import com.sun.corba.se.spi.orbutil.fsm.Guard.Result;
 
-import dev.coly.discordoauth2.DiscordOAuth2;
 import io.mokulu.discord.oauth.DiscordAPI;
 import io.mokulu.discord.oauth.DiscordOAuth;
 import io.mokulu.discord.oauth.model.Connection;
 import io.mokulu.discord.oauth.model.Guild;
 import io.mokulu.discord.oauth.model.TokensResponse;
 import io.mokulu.discord.oauth.model.User;
+import net.sf.json.JSON;
+
+
 
 
 
@@ -76,13 +86,10 @@ public class CalendarController {
 		return "calview";
 	}
 
-@RequestMapping(value = "/login")
-	public @ResponseBody String getDiscord(
-			HttpServletRequest request) throws Exception {
-		
-		String reqUrl ="https://discord.com/api/oauth2/authorize?client_id=894943429283446814&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Flogin%2Fredirect&response_type=code&scope=identify%20email";
-		
-		return reqUrl;
+	@RequestMapping(value = "/login", method = RequestMethod.GET)
+	public String getDiscord() throws Exception {
+				
+		return "/login";
 	}
 
 	/*
@@ -90,6 +97,7 @@ public class CalendarController {
 	 redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Flogin%2Fredirect&
 	 response_type=code&scope=identify%20email
 	 */
+	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping(value = "/users/login/redirect", method = RequestMethod.GET)
 	public String redirct(@RequestParam("code") String code,Model model) throws Exception {
 		System.out.println(code);
@@ -114,11 +122,46 @@ public class CalendarController {
 	        System.out.println("ref :"+refreshToken);
 	        DiscordAPI api = new DiscordAPI(accessToken);
 	       User user = api.fetchUser();
-	 //       List<Connection> connections = api.fetchConnections();
-	     //   List<Guild> guilds = api.fetchGuilds();
-	       System.out.println(user);
+      List<Connection> connections = api.fetchConnections();
+	     List<Guild> guilds = api.fetchGuilds();
+	       System.out.println(user.getUsername());
 
-		return "/login";
+	
+	       			System.out.println(guilds);
+	       			boolean isContainsHello = guilds.contains("id=590509823007784963");
+	       			boolean isContainsBye = guilds.contains("느브링");
+
+	       	System.out.println(isContainsHello);
+	       	System.out.println(isContainsBye);
+	       		
+	       			 if(guilds.contains("id=590509823007784963")) {
+	       			  System.out.println("있음");
+	    
+	       			  
+	       			  
+	       			 }else {
+	       				 System.out.println("없음");
+	       				 return "redirect:http://naver.com";
+	       			 }
+	       				 
+	       		  
+	       			System.out.println(connections);
+	       			System.out.println(api.fetchUser());
+	       System.out.println();
+	       
+	  
+			/*
+			 * String jsonStr = null; JSONObject obj = null; jsonStr =
+			 * Jsoup.connect("http://211.34.105.23:8080/members/"+user.getId())
+			 * .ignoreContentType(true) .execute().body(); System.out.println(jsonStr);
+			 * JSONObject jsonObj = new JSONObject(jsonStr);
+			 * System.out.println(jsonObj.get("_id"));
+			 * System.out.println(jsonObj.get("id"));
+			 * System.out.println(jsonObj.get("nickname"));
+			 * System.out.println(jsonObj.get("lv"));
+			 * System.out.println(jsonObj.get("role"));
+			 */
+		return "/cal";
 	}
 	public String getAccessToken (String authorize_code) {
 		
@@ -126,4 +169,6 @@ public class CalendarController {
           
         return "a";
 }
+	 
+	
 }
