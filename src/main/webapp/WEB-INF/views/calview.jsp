@@ -37,7 +37,7 @@
 </head>
 
 <body>
-
+	<%@include file="inc/top.jsp" %>
 <script type="text/javascript">
 
 

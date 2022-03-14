@@ -164,11 +164,15 @@ public class CalendarController {
 	       			}
 	       			else {
 	       				System.out.println("실패");
-						return "redirect:http://www.naver.com";
+						
 					}
+	       	
+	       	   
 
-	
-		return "redirect:/";
+
+
+	       		  return "redirect:/cal";
+		
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
@@ -176,7 +180,7 @@ public class CalendarController {
 		
 		session.invalidate();
 		
-		return "redirect:/";
+		return "redirect:/cal";
 	}
 	
 }

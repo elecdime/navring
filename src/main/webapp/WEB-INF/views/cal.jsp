@@ -68,6 +68,7 @@
 </head>
 
 <body>
+	<%@include file="inc/top.jsp" %>
    <div id='calendar'></div>
 </body>
 
