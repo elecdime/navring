@@ -20,9 +20,9 @@
 			<url>http://maven.jahia.org/maven2</url>
 		</repository>
 
-	<repository>
-		    <id>jitpack.io</id>
-		    <url>https://jitpack.io</url>
+		<repository>
+			<id>jitpack.io</id>
+			<url>https://jitpack.io</url>
 		</repository>
 
 	</repositories>
@@ -30,11 +30,21 @@
 
 	<dependencies>
 
-	<dependency>
-	    <groupId>com.github.Mokulu</groupId>
-	    <artifactId>discord-oauth2-api</artifactId>
-	    <version>1.0.2</version>
-	</dependency>
+		<dependency>
+			<groupId>org.bgee.log4jdbc-log4j2</groupId>
+			<artifactId>log4jdbc-log4j2-jdbc4</artifactId>
+			<version>1.16</version>
+		</dependency>
+		<dependency>
+    <groupId>org.mariadb.jdbc</groupId>
+    <artifactId>mariadb-java-client</artifactId>
+    <version>2.0.3</version>
+</dependency>
+		<dependency>
+			<groupId>com.github.Mokulu</groupId>
+			<artifactId>discord-oauth2-api</artifactId>
+			<version>1.0.2</version>
+		</dependency>
 
 		<dependency>
 			<groupId>org.projectlombok</groupId>

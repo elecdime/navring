@@ -10,7 +10,7 @@ import org.apache.ibatis.session.SqlSession;
 import org.springframework.stereotype.Repository;
 
 import com.bbs.domain.Calendar;
-import com.bbs.domain.bbsDTO;
+
 
 @Repository
 public class CalenDaoImpl implements CalenDao {

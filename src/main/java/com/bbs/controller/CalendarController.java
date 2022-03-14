@@ -37,8 +37,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bbs.domain.Calendar;
-import com.bbs.domain.SearchCriteria;
-import com.bbs.domain.bbsDTO;
 import com.bbs.service.CalenService;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -54,10 +52,6 @@ import io.mokulu.discord.oauth.model.User;
 import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
-
-
-
-
 
 @Controller
 public class CalendarController {
@@ -92,95 +86,90 @@ public class CalendarController {
 
 	@RequestMapping(value = "/login", method = RequestMethod.GET)
 	public String getDiscord() throws Exception {
-				
+
 		return "/login";
 	}
 
 	/*
-	 https://discord.com/api/oauth2/authorize?client_id=894943429283446814&
-	 redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Flogin%2Fredirect&
-	 response_type=code&scope=identify%20email
+	 * https://discord.com/api/oauth2/authorize?client_id=894943429283446814&
+	 * redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Flogin%2Fredirect&
+	 * response_type=code&scope=identify%20email
 	 */
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping(value = "/users/login/redirect", method = RequestMethod.GET)
-	public String redirct(@RequestParam("code") String code,Model model,HttpServletRequest request) throws Exception {
+	public String redirct(@RequestParam("code") String code, Model model, HttpServletRequest request) throws Exception {
 		System.out.println(code);
-		 String access_Token = "";
-	        String refresh_Token = "";
-	        String reqURL = "https://discord.com/api/oauth2/token";
-	        String client_id = "894943429283446814";
-	        String client_secret = "M0jsQBmIRNAzMemKH63rQz8h1qqHQdMf";
-	        String grant_type = "authorization_code";
-	      
-	        String redirect_uri ="http://127.0.0.1:8000/users/login/redirect";
-	        String[] scope = {"identify", "email" ,"connections","guilds.members.read","guilds"};
-	        DiscordOAuth discordOAuth2 = new DiscordOAuth(client_id, client_secret, "http://127.0.0.1:8000/users/login/redirect", scope);
-	        System.out.println(discordOAuth2);
-	        String url = discordOAuth2.getAuthorizationURL("");
-	        System.out.println(url);
-	        TokensResponse tokens = discordOAuth2.getTokens(code);
-	        System.out.println(tokens);
-	        String accessToken = tokens.getAccessToken();
-	        String refreshToken = tokens.getRefreshToken();
-	        System.out.println("acc:"+accessToken);
-	        System.out.println("ref :"+refreshToken);
-	        DiscordAPI api = new DiscordAPI(accessToken);
-	       User user = api.fetchUser();
-      List<Connection> connections = api.fetchConnections();
-      ArrayList<Guild> guilds = new ArrayList(api.fetchGuilds());
-      
-	     
-	       System.out.println(user.getUsername());
-	       System.out.println(guilds.contains("295788758828056577"));
-	
-	       			System.out.println(guilds);
-	       	
+		String access_Token = "";
+		String refresh_Token = "";
+		String reqURL = "https://discord.com/api/oauth2/token";
+		String client_id = "894943429283446814";
+		String client_secret = "M0jsQBmIRNAzMemKH63rQz8h1qqHQdMf";
+		String grant_type = "authorization_code";
 
-	
-	       			System.out.println(connections);
-	       			System.out.println(api.fetchUser());
-	       			if(guilds.toString().contains("나브링")) {
-	       			
-	       				System.out.println("로그인");
-	       			 
-	       			  String jsonStr = null; JSONObject obj = null; 
-	      			
-	    			  jsonStr = Jsoup.connect("http://211.34.105.23:8080/members/"+user.getId())
-	    			  .ignoreContentType(true) .execute().body(); System.out.println(jsonStr);
-	    			  JSONObject jsonObj = new JSONObject(jsonStr);
-	    			 System.out.println(jsonObj.get("_id"));
-	    			  System.out.println(jsonObj.get("id"));
-	    			  System.out.println(jsonObj.get("nickname"));
-	    			  System.out.println(jsonObj.get("lv"));
-	    			  System.out.println(jsonObj.get("role"));
-	    			 com.bbs.domain.User us = new com.bbs.domain.User();
-	    			 us.setNickname(jsonObj.get("nickname")+"/"+jsonObj.get("lv")+"/"+jsonObj.get("role"));
-	    			 String name = us.getNickname();
-	    			 System.out.println(name);
-	    			    HttpSession session = request.getSession();
+		String redirect_uri = "http://127.0.0.1:8000/users/login/redirect";
+		String[] scope = { "identify", "guilds.members.read", "guilds" };
+		DiscordOAuth discordOAuth2 = new DiscordOAuth(client_id, client_secret,
+				"http://127.0.0.1:8000/users/login/redirect", scope);
+		System.out.println(discordOAuth2);
+		String url = discordOAuth2.getAuthorizationURL("");
+		System.out.println(url);
+		TokensResponse tokens = discordOAuth2.getTokens(code);
+		System.out.println(tokens);
+		String accessToken = tokens.getAccessToken();
+		String refreshToken = tokens.getRefreshToken();
+		System.out.println("acc:" + accessToken);
+		System.out.println("ref :" + refreshToken);
+		DiscordAPI api = new DiscordAPI(accessToken);
+		User user = api.fetchUser();
+		//List<Connection> connections = api.fetchConnections();
+		ArrayList<Guild> guilds = new ArrayList(api.fetchGuilds());
 
-	    			 session.setAttribute("user",us);
-	       				System.out.println(session);
-	       			}
-	       			else {
-	       				System.out.println("실패");
-						
-					}
-	       	
-	       	   
+		System.out.println(user.getUsername());
+		System.out.println(guilds.contains("295788758828056577"));
 
+		System.out.println(guilds);
 
+		//System.out.println(connections);
+		System.out.println(api.fetchUser());
+		if (guilds.toString().contains("나브링")) {
 
-	       		  return "redirect:/cal";
-		
+			System.out.println("로그인");
+
+			String jsonStr = null;
+			JSONObject obj = null;
+
+			jsonStr = Jsoup.connect("http://211.34.105.23:8080/members/" + user.getId()).ignoreContentType(true)
+					.execute().body();
+			System.out.println(jsonStr);
+			JSONObject jsonObj = new JSONObject(jsonStr);
+			System.out.println(jsonObj.get("_id"));
+			System.out.println(jsonObj.get("id"));
+			System.out.println(jsonObj.get("nickname"));
+			System.out.println(jsonObj.get("lv"));
+			System.out.println(jsonObj.get("role"));
+			com.bbs.domain.User us = new com.bbs.domain.User();
+			us.setNickname(jsonObj.get("nickname") + "/" + jsonObj.get("lv") + "/" + jsonObj.get("role"));
+			String name = us.getNickname();
+			System.out.println(name);
+			HttpSession session = request.getSession();
+
+			session.setAttribute("user", us);
+			System.out.println(session);
+		} else {
+			System.out.println("실패");
+
+		}
+
+		return "redirect:/cal";
+
 	}
 
 	@RequestMapping(value = "/logout", method = RequestMethod.GET)
-	public String logout(HttpSession session) throws Exception{
-		
+	public String logout(HttpSession session) throws Exception {
+
 		session.invalidate();
-		
+
 		return "redirect:/cal";
 	}
-	
+
 }

@@ -12,12 +12,16 @@
     http://www.springframework.org/schema/tx/spring-tx.xsd
     ">
 	
-	<bean id="dataSource" class="org.apache.commons.dbcp.BasicDataSource" destroy-method="close">
-		<property name="driverClassName" value="oracle.jdbc.driver.OracleDriver" />
-		<property name="url" value="jdbc:oracle:thin:@192.168.0.101:1521:orcl" />
-		<property name="username" value="ARIMOATESTDB" />
-		<property name="password" value="ARIMOATESTDB" />
-	</bean> <!-- SqlSession -->
+	<bean id="dataSource"
+		class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+		<property name="driverClassName"
+			value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+		<property name="url"
+			value="jdbc:log4jdbc:mariadb://localhost:3306/test" />
+		<property name="username" value="root" />
+		<property name="password" value="root" />
+	</bean>
+	<!-- SqlSession -->
 	
 	
 	
@@ -38,13 +42,13 @@
     <constructor-arg index="0" ref="sqlSessionFactory" />
  
 	</bean>
- 	 <!-- Transaction Manager -->
-	    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+   <!-- Transaction Manager -->
+<!-- 	    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
 		<tx:annotation-driven transaction-manager="txManager" />
 
-
+ -->
 
 
 </beans>

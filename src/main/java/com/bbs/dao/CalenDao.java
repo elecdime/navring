@@ -7,7 +7,7 @@ import java.util.Map;
 import org.springframework.stereotype.Repository;
 
 import com.bbs.domain.Calendar;
-import com.bbs.domain.bbsDTO;
+
 
 
 public interface CalenDao {
