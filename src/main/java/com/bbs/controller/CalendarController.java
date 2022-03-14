@@ -9,6 +9,7 @@ import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -16,6 +17,7 @@ import java.util.Map;
 import javax.inject.Inject;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
@@ -49,7 +51,9 @@ import io.mokulu.discord.oauth.model.Connection;
 import io.mokulu.discord.oauth.model.Guild;
 import io.mokulu.discord.oauth.model.TokensResponse;
 import io.mokulu.discord.oauth.model.User;
+import jdk.nashorn.internal.parser.JSONParser;
 import net.sf.json.JSON;
+import net.sf.json.JSONArray;
 
 
 
@@ -99,7 +103,7 @@ public class CalendarController {
 	 */
 	@SuppressWarnings("unlikely-arg-type")
 	@RequestMapping(value = "/users/login/redirect", method = RequestMethod.GET)
-	public String redirct(@RequestParam("code") String code,Model model) throws Exception {
+	public String redirct(@RequestParam("code") String code,Model model,HttpServletRequest request) throws Exception {
 		System.out.println(code);
 		 String access_Token = "";
 	        String refresh_Token = "";
@@ -123,52 +127,56 @@ public class CalendarController {
 	        DiscordAPI api = new DiscordAPI(accessToken);
 	       User user = api.fetchUser();
       List<Connection> connections = api.fetchConnections();
-	     List<Guild> guilds = api.fetchGuilds();
+      ArrayList<Guild> guilds = new ArrayList(api.fetchGuilds());
+      
+	     
 	       System.out.println(user.getUsername());
-
+	       System.out.println(guilds.contains("295788758828056577"));
 	
 	       			System.out.println(guilds);
-	       			boolean isContainsHello = guilds.contains("id=590509823007784963");
-	       			boolean isContainsBye = guilds.contains("느브링");
+	       	
 
-	       	System.out.println(isContainsHello);
-	       	System.out.println(isContainsBye);
-	       		
-	       			 if(guilds.contains("id=590509823007784963")) {
-	       			  System.out.println("있음");
-	    
-	       			  
-	       			  
-	       			 }else {
-	       				 System.out.println("없음");
-	       				 return "redirect:http://naver.com";
-	       			 }
-	       				 
-	       		  
+	
 	       			System.out.println(connections);
 	       			System.out.println(api.fetchUser());
-	       System.out.println();
-	       
-	  
-			/*
-			 * String jsonStr = null; JSONObject obj = null; jsonStr =
-			 * Jsoup.connect("http://211.34.105.23:8080/members/"+user.getId())
-			 * .ignoreContentType(true) .execute().body(); System.out.println(jsonStr);
-			 * JSONObject jsonObj = new JSONObject(jsonStr);
-			 * System.out.println(jsonObj.get("_id"));
-			 * System.out.println(jsonObj.get("id"));
-			 * System.out.println(jsonObj.get("nickname"));
-			 * System.out.println(jsonObj.get("lv"));
-			 * System.out.println(jsonObj.get("role"));
-			 */
-		return "/cal";
+	       			if(guilds.toString().contains("나브링")) {
+	       			
+	       				System.out.println("로그인");
+	       			 
+	       			  String jsonStr = null; JSONObject obj = null; 
+	      			
+	    			  jsonStr = Jsoup.connect("http://211.34.105.23:8080/members/"+user.getId())
+	    			  .ignoreContentType(true) .execute().body(); System.out.println(jsonStr);
+	    			  JSONObject jsonObj = new JSONObject(jsonStr);
+	    			 System.out.println(jsonObj.get("_id"));
+	    			  System.out.println(jsonObj.get("id"));
+	    			  System.out.println(jsonObj.get("nickname"));
+	    			  System.out.println(jsonObj.get("lv"));
+	    			  System.out.println(jsonObj.get("role"));
+	    			 com.bbs.domain.User us = new com.bbs.domain.User();
+	    			 us.setNickname(jsonObj.get("nickname")+"/"+jsonObj.get("lv")+"/"+jsonObj.get("role"));
+	    			 String name = us.getNickname();
+	    			 System.out.println(name);
+	    			    HttpSession session = request.getSession();
+
+	    			 session.setAttribute("user",us);
+	       				System.out.println(session);
+	       			}
+	       			else {
+	       				System.out.println("실패");
+						return "redirect:http://www.naver.com";
+					}
+
+	
+		return "redirect:/";
 	}
-	public String getAccessToken (String authorize_code) {
+
+	@RequestMapping(value = "/logout", method = RequestMethod.GET)
+	public String logout(HttpSession session) throws Exception{
 		
-	       
-          
-        return "a";
-}
-	 
+		session.invalidate();
+		
+		return "redirect:/";
+	}
 	
 }
