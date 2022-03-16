@@ -3,7 +3,7 @@ package com.bbs.domain;
 public class CategoriDTO {
 
 	
-	private String cateName ,cateCode,cateCodeRef;
+	private String cateName ,cateCode,cateCodeRef,cateMax;
 	private int level;
 	public int getLevel() {
 		return level;

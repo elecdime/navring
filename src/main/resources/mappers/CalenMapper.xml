@@ -4,37 +4,103 @@
 
 <mapper namespace="com.bbs.mapper.CalenMapper">
 	<resultMap type="com.bbs.domain.Calendar" id="calMap">
-		<result property="start1" column="start1"/>
-		<result property="end" column="end1"/>
+		<result property="start1" column="start1" />
+	
 	</resultMap>
 	<select id="calenList" resultMap="calMap">
 		SELECT id, title,
-		TO_char(start1, 'YYYY-MM-DD"T"HH24:MI:SS') start1,
-		TO_char(end1, 'YYYY-MM-DD"T"HH24:MI:SS') end1,
+		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
 		ALLDAY,
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR ,
-		username,
 		leader_id,
 		cateCode
 		FROM CALENDAR
 	</select>
-	
+
 	<select id="calView" resultType="com.bbs.domain.Calendar">
 		SELECT a.id, a.title,
-		TO_char(start1, 'YYYY-MM-DD"T"HH24:MI:SS') start1,
-		TO_char(end1, 'YYYY-MM-DD"T"HH24:MI:SS') end1,
+		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
 		ALLDAY,
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR ,
-		username,
 		leader_id,content,writer,
 		a.cateCode,c.Catecode,c.CateName,c.CatecodeRef
-		FROM CALENDAR a INNER join categori_jh c
-        on
-        a.cateCode = c.cateCode
-        where a.id =#{id}
+		FROM CALENDAR a INNER
+		join categori_jh c
+		on
+		a.cateCode = c.cateCode
+		where a.id = #{id}
 	</select>
+	<select id="categori" resultType="com.bbs.domain.CategoriDTO">
+		WITH recursive cte AS (
+		SELECT cateName, cateCode,
+		cateCodeRef,cateMax ,1 AS level
+		FROM categori_jh
+		WHERE cateCodeRef IS
+		null
+		UNION all
+		SELECT p.cateName, p.cateCode, p.cateCodeRef,p.cateMax, 1
+		+ LEVEL AS level
+		FROM categori_jh p
+		INNER JOIN cte
+		ON p.cateCodeRef =
+		cte.cateCode
+		)
+		SELECT cateName, cateCode, cateCodeRef,CATEMAX, LEVEL
+		FROM cte;
+
+
+	</select>
+
+	<insert id="calinsert" parameterType="hashMap">
+
+		INSERT INTO calendar
+		(title
+		,START1
+		,leader_id
+		,content
+		,writer
+		,cateMax
+		,cateCode)
+		VALUES(#{title}
+		,#{start1, jdbcType=TIMESTAMP}
+		,#{leader_id}
+		,#{content}
+		,#{writer}
+		,(SELECT cateMax FROM categori_jh WHERE catecode=#{cateCode})
+		,#{cateCode});
+
+	</insert>
+		<insert id="join">
+
+		INSERT INTO user
+		(id,username,nickname,name,lv,role) values
+		(#{id},#{username},#{nickname},#{name},#{lv},#{role})
+		
+	</insert>
+	<select id="userid" resultType="com.bbs.domain.User">
+	SELECT ID FROM user WHERE ID =#{id}
+
+	</select>
+<update id="rejoin">
+
+		update USER set
+		 username = #{username}
+		,nickname =#{nickname}
+		,NAME =#{name}
+		,lv = #{lv}
+		,role=#{role}
+		WHERE ID =#{id}
+	</update>
+	
+		<select id="radelist"  resultType="com.bbs.domain.Rade">
+	SELECT * FROM rade WHERE calid = #{calid}
+	</select>
+	
+	<insert id="readjoin">
+	INSERT INTO rade (calid,nickname) VALUES (#{calid},#{nickname})
+	</insert>
 </mapper>

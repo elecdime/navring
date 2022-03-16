@@ -1,5 +1,7 @@
 package com.bbs.domain;
 
+import java.sql.Timestamp;
+
 import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,7 +10,7 @@ import lombok.Setter;
 @Setter
 @Data
 public class Calendar {
-	private int id,cateCode;
+	private int id;
 	private String groupId;
 	private String title;
 	private String writer;
@@ -21,6 +23,9 @@ public class Calendar {
 	private String borderColor;
 	private String username;
 	private String leader_id;
-	private String cateName ,cateCodeRef;
-    /*set/get메서드*/
+	private String cateName ,cateCodeRef,cateMax,cateMin,cateCode;
+	 private int calid;
+	 private String nickname;
+	
+	/*set/get메서드*/
     }

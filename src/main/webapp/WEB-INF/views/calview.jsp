@@ -10,13 +10,9 @@
  
 <script
 	src="//cdn.jsdelivr.net/npm/@popperjs/core@2.10.2/dist/umd/popper.min.js"></script>
-<script
-	src="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/js/bootstrap.min.js"></script>
-<link
-	href="//cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
-	rel="stylesheet"
-	integrity="sha384-1BmE4kWBq78iYhFldvKuhfTAU6auU8tT94WrHftjDbrCEXSU1oBoqyl2QvZ6jIW3"
-	crossorigin="anonymous">
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
@@ -45,7 +41,7 @@
 
 
 
-<form role="form" method="post" autocomplete="off" name="readForm">
+
 <input type="hidden" name="n" value="${cal.id}" />
 
 
@@ -92,20 +88,35 @@
 
  
  </pre>
- 
- 
- 
- 
-
-
-
 </div>
+<label>참여자 목록: </label>
+<span><c:forEach items="${rd}" var="rd">
+	<label name ="nickname">${rd.nickname}, </label>
+		</c:forEach>
+		 <c:choose>
+                    	<c:when test ="${user == null}">
+	                    
+	                           <label><b style="background-color: red;">로그인후 레이드 참가가능</b>
+	                                 </label>
+     							
+                    	</c:when>
+                    	<c:otherwise>
+                   
+      <form action="/radejoin" method="POST">
+ 	 <input type="hidden" id="nickname" name="nickname" value="${user.nickname}" readonly="readonly" />	
+ 	 <input type="hidden" name="n" value="${cal.id}" />
+ 	 		
+ <button type="submit" id="join" class="btn btn-warning">참가</button>
+                    	</c:otherwise>
+                    	</c:choose>
 
-
+ </form>
+</span>
+<p></p>
 
 </div>
 <hr>
-				
+
 				
 <div class="inputArea">
 
@@ -135,6 +146,8 @@
  
 </div>
 
-</form>
+
+
+
 </body>
 </html>
