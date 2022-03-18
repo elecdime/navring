@@ -89,7 +89,7 @@
  
  </pre>
 </div>
-<label>참여자 목록: </label>
+<label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
 <span><c:forEach items="${rd}" var="rd">
 	<label name ="nickname">${rd.nickname}, </label>
 		</c:forEach>
@@ -105,8 +105,15 @@
       <form action="/radejoin" method="POST">
  	 <input type="hidden" id="nickname" name="nickname" value="${user.nickname}" readonly="readonly" />	
  	 <input type="hidden" name="n" value="${cal.id}" />
- 	 		
+ 	 <c:if test ="${cal.leader_id != user.nickname}">
+
+ 	 
+ 	 
+ 	 		<c:if test="${cal.cateMax > cal.cateMin}">
  <button type="submit" id="join" class="btn btn-warning">참가</button>
+ 
+ </c:if>
+       </c:if>
                     	</c:otherwise>
                     	</c:choose>
 

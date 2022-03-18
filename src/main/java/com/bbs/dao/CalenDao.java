@@ -23,4 +23,13 @@ public interface CalenDao {
 	 public Object userid(Object id);
 	 public List<Rade> radeList(int id);
 	 public void radejoin(Rade rade); 
+	 public void overjoin(int id);
+	 public void last_tobal(User user);
+	 public List<User> searchMemberList(User us);
+	 public List<User> memberList();
+	 public int memberCount();
+     public List<User> tobalList();
+   
+     public void tobalck(String id);
+     public List<User> cut();
 }

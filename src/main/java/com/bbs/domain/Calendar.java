@@ -26,6 +26,6 @@ public class Calendar {
 	private String cateName ,cateCodeRef,cateMax,cateMin,cateCode;
 	 private int calid;
 	 private String nickname;
-	
+
 	/*set/get메서드*/
     }

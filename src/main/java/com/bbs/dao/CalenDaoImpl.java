@@ -64,5 +64,45 @@ public void radejoin(Rade rade) {
 	// TODO Auto-generated method stub
 	sql.insert(namespace+".readjoin",rade);
 }
+@Override
+public void overjoin(int id) {
+	// TODO Auto-generated method stub
+	sql.update(namespace+".overjoin",id);
+}
+@Override
+public void last_tobal(User user) {
+	// TODO Auto-generated method stub
+	sql.update(namespace+".last_tobal",user);
+}
+@Override
+public List<User> searchMemberList(User us) {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".searchMemberList",us);
+}
+@Override
+public int memberCount() {
+	// TODO Auto-generated method stub
+	return sql.selectOne(namespace+".memberCount");
+}
+@Override
+public List<User> memberList() {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".memberList");
+}
+@Override
+public List<User> tobalList() {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".tobalList");
+}
+@Override
+public void tobalck(String id) {
+	// TODO Auto-generated method stub
+	sql.update(namespace+".tobalck",id);
+}
+@Override
+public List<User> cut() {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".cut");
+}
 }
 

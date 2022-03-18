@@ -26,9 +26,6 @@
 				if($("#title").val().length==0){ alert("제목을 입력하세요."); $("#title").focus(); return false; } 
 
 				if($("#start1").val().length==0){ alert("날짜와 시간을 입력하세요"); $("#start1").focus(); return false; } 
-
-				if($("#content").val().length==0){ alert("내용을 입력하세요"); $("#start1").focus(); return false; } 
-				if($("#content").val().length==0){ alert("내용을 입력하세요"); $("#content").focus(); return false; } 
 			});		 
 
 	}); 
@@ -83,7 +80,7 @@
  <label for="writer">작성자</label>
  <input type="text" id="writer" name="writer" value="${user.nickname}" readonly="readonly" />
 </div>
- <input type="hidden" id="leader_id" name="writer" value="${user.nickname}" readonly="readonly" />
+ <input type="hidden" id="leader_id" name="leader_id" value="${user.nickname}" readonly="readonly" />
 <div >
  <label for="start1">일정 시작</label>
  <input type="datetime-local" id="start1" name="start1" />
@@ -193,6 +190,7 @@ $(document).on("change", "select.category1", function(){
 
 </c:otherwise>
                     	</c:choose>
+                    	
 </body>
 
 </html>

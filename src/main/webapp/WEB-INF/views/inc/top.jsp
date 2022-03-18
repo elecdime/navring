@@ -9,15 +9,15 @@
 <nav class="navbar navbar-inverse">
   <div class="container-fluid">
     <div class="navbar-header">
-      <a class="navbar-brand" href="#">나브링</a>
+      <a class="navbar-brand" href="/">나브링</a>
     </div>
     <ul class="nav navbar-nav">
-      <li class="active"><a href="#">Home</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">Page 1 <span class="caret"></span></a>
+      <li class><a href="/">Home</a></li>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> 참여 <span class="caret"></span></a>
         <ul class="dropdown-menu">
-          <li><a href="#">Page 1-1</a></li>
-          <li><a href="#">Page 1-2</a></li>
-          <li><a href="#">Page 1-3</a></li>
+          <li><a href="/cal">레이드 참여</a></li>
+          <li><a href="/calinsert">레이드 참여모집</a></li>
+
         </ul>
       </li>
       <li><a href="#">Page 2</a></li>
@@ -35,8 +35,8 @@
                     	<c:otherwise>
                     
                             <li><a href="${pageContext.request.contextPath}/logout">로그아웃</a></li>
-                            <li><a>${user.nickname}님</a></li>          
-                        </ul>
+                            <li><a>${user.nickname}님</a></li>   
+                          </ul>
                     	</c:otherwise>
                     	</c:choose>
   

@@ -61,5 +61,46 @@ public List<Rade> radeList(int id) {
 public void radejoin(Rade rade) {
 	// TODO Auto-generated method stub
 	dao.radejoin(rade);
+
+
+}
+@Override
+public void overjoin(int id) {
+	// TODO Auto-generated method stub
+	dao.overjoin(id);
+}
+@Override
+public void last_tobal(User user) {
+	// TODO Auto-generated method stub
+	dao.last_tobal(user);
+}
+@Override
+public List<User> searchMemberList(User us) {
+	// TODO Auto-generated method stub
+	return dao.searchMemberList(us);
+}
+@Override
+public int memberCount() {
+	// TODO Auto-generated method stub
+	return dao.memberCount();
+}
+@Override
+public List<User> memberList() {
+	// TODO Auto-generated method stub
+	return dao.memberList();
+}
+@Override
+public List<User> tobalList() {
+	// TODO Auto-generated method stub
+	return dao.tobalList();
+}
+@Override
+public void tobalck(String id) {
+	// TODO Auto-generated method stub
+	dao.tobalck(id);
+}
+public List<User> cut() {
+	// TODO Auto-generated method stub
+	return dao.cut();
 }
 }

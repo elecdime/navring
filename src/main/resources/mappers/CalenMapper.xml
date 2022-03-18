@@ -5,7 +5,7 @@
 <mapper namespace="com.bbs.mapper.CalenMapper">
 	<resultMap type="com.bbs.domain.Calendar" id="calMap">
 		<result property="start1" column="start1" />
-	
+
 	</resultMap>
 	<select id="calenList" resultMap="calMap">
 		SELECT id, title,
@@ -22,7 +22,7 @@
 	<select id="calView" resultType="com.bbs.domain.Calendar">
 		SELECT a.id, a.title,
 		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
-		ALLDAY,
+		ALLDAY,c.cateMax,cateMin,
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR ,
@@ -32,24 +32,28 @@
 		join categori_jh c
 		on
 		a.cateCode = c.cateCode
-		where a.id = #{id}
+		where a.id =#{id}
 	</select>
 	<select id="categori" resultType="com.bbs.domain.CategoriDTO">
 		WITH recursive cte AS (
-		SELECT cateName, cateCode,
+		SELECT
+		cateName, cateCode,
 		cateCodeRef,cateMax ,1 AS level
 		FROM categori_jh
 		WHERE cateCodeRef IS
 		null
 		UNION all
-		SELECT p.cateName, p.cateCode, p.cateCodeRef,p.cateMax, 1
+		SELECT p.cateName, p.cateCode,
+		p.cateCodeRef,p.cateMax, 1
 		+ LEVEL AS level
 		FROM categori_jh p
-		INNER JOIN cte
+		INNER JOIN
+		cte
 		ON p.cateCodeRef =
 		cte.cateCode
 		)
-		SELECT cateName, cateCode, cateCodeRef,CATEMAX, LEVEL
+		SELECT cateName, cateCode,
+		cateCodeRef,CATEMAX, LEVEL
 		FROM cte;
 
 
@@ -74,33 +78,74 @@
 		,#{cateCode});
 
 	</insert>
-		<insert id="join">
+	<insert id="join">
 
 		INSERT INTO user
-		(id,username,nickname,name,lv,role) values
+		(id,username,nickname,name,lv,role)
+		values
 		(#{id},#{username},#{nickname},#{name},#{lv},#{role})
-		
+
 	</insert>
 	<select id="userid" resultType="com.bbs.domain.User">
-	SELECT ID FROM user WHERE ID =#{id}
+		SELECT ID FROM user WHERE ID =#{id}
 
 	</select>
-<update id="rejoin">
+	<update id="rejoin">
 
 		update USER set
-		 username = #{username}
+		username = #{username}
 		,nickname =#{nickname}
 		,NAME =#{name}
 		,lv = #{lv}
 		,role=#{role}
 		WHERE ID =#{id}
 	</update>
-	
-		<select id="radelist"  resultType="com.bbs.domain.Rade">
-	SELECT * FROM rade WHERE calid = #{calid}
+
+	<select id="radelist" resultType="com.bbs.domain.Rade">
+		SELECT * FROM rade WHERE calid = #{calid}
 	</select>
-	
+
 	<insert id="readjoin">
-	INSERT INTO rade (calid,nickname) VALUES (#{calid},#{nickname})
+		INSERT INTO rade (calid,nickname) VALUES (#{calid},#{nickname})
 	</insert>
+	<update id="overjoin">
+		UPDATE calendar set
+		CATEMIN = (SELECT CATEMIN+1 FROM
+		calendar WHERE ID = #{id})
+		WHERE id = #{id}
+
+	</update>
+	<update id="last_tobal">
+		UPDATE user SET last_tobal = (SELECT start1 FROM calendar WHERE id=#{_id})
+		WHERE id =#{id}
+	</update>
+
+	<select id="searchMemberList" resultType="com.bbs.domain.User">
+		select *
+		from user
+		where ${searchCulumn} like concat('%',#{searchText},'%')
+	</select>
+	<select id="memberList" resultType="com.bbs.domain.User">
+		select * from user
+	</select>
+	<select id="memberCount" resultType="int">
+		select count(*) from user
+	</select>
+
+		<select id="tobalList" resultType="com.bbs.domain.User">
+	   <![CDATA[
+		SELECT * FROM user WHERE DATE(last_tobal) >=date(subdate(now(), INTERVAL 7 DAY)) 
+		AND date(last_tobal) <= date(NOW() )
+		]]>
+	</select>
+
+	<update id="tobalck">
+		UPDATE user SET  real_tobal = (SELECT last_tobal FROM user WHERE id = #{id})
+	</update>
+		<select id="cut" resultType="com.bbs.domain.User">
+	   <![CDATA[
+			SELECT * FROM user WHERE DATE(real_tobal) <=date(subdate(now(), INTERVAL 15 DAY)) 
+		AND date(last_tobal) <= date(NOW() ) or sooncut = 'N'
+		]]>
+	</select>
 </mapper>
