@@ -91,7 +91,13 @@
 </div>
 <label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
 <span><c:forEach items="${rd}" var="rd">
+	<input type="hidden" value="${rd.id}">
 	<label name ="nickname">${rd.nickname}, </label>
+	 <c:if test ="${rd.userid == user.id}">
+
+	   <a href="/deljoin?n=${rd.id}&s=${rd.calid}" class="btn btn-warning">참가취소</a>
+	 </c:if>
+	
 		</c:forEach>
 		 <c:choose>
                     	<c:when test ="${user == null}">
@@ -105,13 +111,14 @@
       <form action="/radejoin" method="POST">
  	 <input type="hidden" id="nickname" name="nickname" value="${user.nickname}" readonly="readonly" />	
  	 <input type="hidden" name="n" value="${cal.id}" />
- 	 <c:if test ="${cal.leader_id != user.nickname}">
+
+ 	 <c:if test ="${cal.leader_id != user.name}">
 
  	 
  	 
  	 		<c:if test="${cal.cateMax > cal.cateMin}">
- <button type="submit" id="join" class="btn btn-warning">참가</button>
- 
+ <button type="submit" id="join" class="btn btn-primary">참가</button>
+
  </c:if>
        </c:if>
                     	</c:otherwise>
@@ -125,28 +132,18 @@
 <hr>
 
 				
+ <button type="button" id="list_btn" class="btn btn-primary">목록</button>
 <div class="inputArea">
 
- <button type="button" id="modify_Btn" class="btn btn-warning">수정</button>
- <button type="button" id="list_btn" class="btn btn-primary">목록</button>
+
 
  <script>
-  var formObj = $("form[role='form']");
-  
-  $("#modify_Btn").click(function(){
-   formObj.attr("action", "${pageContext.request.contextPath}/board/boardupdate");
-   formObj.attr("method", "get")
-   formObj.submit();
-  });
   
  	$("#list_btn").click(function(){
 		
 		
-		self.location = "${pageContext.request.contextPath}/board/listSearch?"
-				+ "page=${scri.page}&perPageNum=${scri.perPageNum}"
-				+ "&searchType=${scri.searchType}&keyword=${scri.keyword}";					
+		self.location = "/cal";					
 	});
-
 
 	</script>
 

@@ -80,7 +80,9 @@
  <label for="writer">작성자</label>
  <input type="text" id="writer" name="writer" value="${user.nickname}" readonly="readonly" />
 </div>
- <input type="hidden" id="leader_id" name="leader_id" value="${user.nickname}" readonly="readonly" />
+ <input type="hidden" id="leader_id" name="leader_id" value="${user.name}" readonly="readonly" />
+  <input type="hidden" id="userid" name="userid" value="${user.id}" readonly="readonly" />
+ 
 <div >
  <label for="start1">일정 시작</label>
  <input type="datetime-local" id="start1" name="start1" />

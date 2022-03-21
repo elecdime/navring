@@ -26,7 +26,7 @@
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR ,
-		leader_id,content,writer,
+		leader_id,content,writer,userid,
 		a.cateCode,c.Catecode,c.CateName,c.CatecodeRef
 		FROM CALENDAR a INNER
 		join categori_jh c
@@ -68,14 +68,18 @@
 		,content
 		,writer
 		,cateMax
-		,cateCode)
+		,cateCode
+		,userid
+		)
 		VALUES(#{title}
 		,#{start1, jdbcType=TIMESTAMP}
 		,#{leader_id}
 		,#{content}
 		,#{writer}
 		,(SELECT cateMax FROM categori_jh WHERE catecode=#{cateCode})
-		,#{cateCode});
+		,#{cateCode}
+		,#{userid}
+		);
 
 	</insert>
 	<insert id="join">
@@ -106,7 +110,7 @@
 	</select>
 
 	<insert id="readjoin">
-		INSERT INTO rade (calid,nickname) VALUES (#{calid},#{nickname})
+		INSERT INTO rade (calid,nickname,userid) VALUES (#{calid},#{nickname},#{userid})
 	</insert>
 	<update id="overjoin">
 		UPDATE calendar set
@@ -148,4 +152,25 @@
 		AND date(last_tobal) <= date(NOW() ) or sooncut = 'N'
 		]]>
 	</select>
+	<select id="updateuser" resultType="com.bbs.domain.User">
+	SELECT * FROM user WHERE id = #{id}
+	</select>
+	<update id="userupdate">
+
+		update USER set
+		issu = #{issu},
+		yellowCard = #{yellowCard},
+		yellowCardWhy =#{yellowCardWhy},
+		sooncut  =#{sooncut}
+		WHERE ID =#{id}
+	</update>
+	<delete id="deljoin">
+		DELETE FROM rade WHERE id = #{id}
+	</delete>
+	<update id="min">
+	UPDATE calendar set
+		CATEMIN = (SELECT CATEMIN-1 FROM
+		calendar WHERE ID = #{calid})
+		WHERE id = #{calid}
+	</update>
 </mapper>

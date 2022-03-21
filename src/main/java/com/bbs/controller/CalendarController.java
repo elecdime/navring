@@ -104,12 +104,15 @@ public class CalendarController {
 		rade.setCalid(id);
 		Calendar cal = service.calView(id);
         int _id = id;
-	
+        
 		HttpSession session = request.getSession();
 		com.bbs.domain.User users = (com.bbs.domain.User) session.getAttribute("user");
+		rade.setUserid(users.getId().toString());
+		System.out.println(users.getId());
+		System.out.println(rade.getUserid());
 		users.set_id(_id);
 		
-		String nk = users.getNickname().toString();
+		String nk = users.getId().toString();
 		System.out.println(users.getId().toString());
 		System.out.println(nk);
 			if(nickcheek.toString().contains(nk)) {
@@ -213,7 +216,6 @@ public class CalendarController {
 				Object name = us.getNickname();
 				service.rejoin(us);
 				System.out.println(name);
-
 				HttpSession session = request.getSession();
 
 				session.setAttribute("user", us);
@@ -240,6 +242,7 @@ public class CalendarController {
 	@RequestMapping(value = "/calinsert", method = RequestMethod.GET)
 	public void boardinsert(Model model, Calendar calendar, HttpSession session) throws Exception {
 
+		
 		// 카테고리
 		List<CategoriDTO> category = null;
 		category = service.categori();
@@ -360,6 +363,36 @@ public class CalendarController {
 		model.addAttribute("count", user.getMemberCount());
 		model.addAttribute("memberList", service.cut());
 		return "/admin/cut";
+	}
+	
+	@RequestMapping(value = "/admin/update", method = RequestMethod.GET)
+	public void update(@RequestParam("n") String id,Model model, com.bbs.domain.User user) {
+		user.setId(id);
+		service.updateuser(id);
+		model.addAttribute("memberList",service.updateuser(id));
+	
+	}
+
+	@RequestMapping(value = "/admin/update", method = RequestMethod.POST)
+	public String updatep(com.bbs.domain.User user) {
+		service.userupdate(user);
+		return "redirect:/admin/userlist";
+	}
+	@RequestMapping(value = "/about", method = RequestMethod.GET)
+	public String about(ModelAndView mv, HttpServletRequest request) {
+
+	
+		return "about";
+	}
+	@RequestMapping(value = "/deljoin", method = RequestMethod.GET)
+	public String deljoin(@RequestParam("n") String id,Rade rade, HttpServletRequest request,@RequestParam("s") String calid) throws Exception {
+		service.deljoin(id);
+		service.min(calid);
+		
+		
+		
+		return "redirect:/calview?n="+calid;
+
 	}
 
 }

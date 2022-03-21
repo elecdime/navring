@@ -13,14 +13,20 @@
     </div>
     <ul class="nav navbar-nav">
       <li class><a href="/">Home</a></li>
-      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#"> 참여 <span class="caret"></span></a>
+      <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">레이드<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="/cal">레이드 참여</a></li>
           <li><a href="/calinsert">레이드 참여모집</a></li>
 
         </ul>
       </li>
-      <li><a href="#">Page 2</a></li>
+ <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">기타<span class="caret"></span></a>
+        <ul class="dropdown-menu">
+          <li><a href="/about">뭐하는곳일까요?</a></li>
+          <li><a href="/baby">응애</a></li>
+
+        </ul>
+      </li>
     </ul>
     <ul class="nav navbar-nav navbar-right">
       <c:choose>
@@ -39,7 +45,7 @@
                           </ul>
                     	</c:otherwise>
                     	</c:choose>
-  
- 
+                    	
+
   </div>
 </nav>

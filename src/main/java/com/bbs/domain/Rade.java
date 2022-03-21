@@ -11,4 +11,6 @@ public class Rade {
  private int id;
  private int calid;
  private String nickname;
+ private String userid;
+ 
 }

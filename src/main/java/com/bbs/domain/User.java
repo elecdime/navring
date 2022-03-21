@@ -19,7 +19,7 @@ public class User {
     private String yellowCardWhy;  //경고 사유
     private String real_tobal; // 님 진짜 토벌전함?
     private String sooncut; // 기여도 미달인원
-    private int MemberCount;// 회어ㅜㄴ수
+    private int MemberCount,a;// 회어ㅜㄴ수
     private String searchCulumn; //컬럼
 	private String searchText; // 텍스트
 	private String subdate;

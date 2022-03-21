@@ -49,4 +49,8 @@ public interface CalenService {
 	public void tobalck(String id);
 	
 	public List<User> cut();
+    public User updateuser(String id);
+    public void userupdate(User user);
+    public void deljoin(String id);
+    public void min(String id);
 }

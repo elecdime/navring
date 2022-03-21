@@ -34,8 +34,7 @@
                             <col width="100">
                             <col width="200">
                              <col width="100">
-                            <col width="300">
-                  
+   
                           </colgroup>
                         
                         <tbody>
@@ -49,7 +48,7 @@
                                 <th class="listTitle">특이사항</th>
                                 <th class="listTitle">경고횟수</th>
                                 <th class="listTitle">경고사유</th>
-                           
+                           	
                             </tr>
                             
                            <!-- jspl -->

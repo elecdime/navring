@@ -5,22 +5,32 @@
     
 <!DOCTYPE html>
 <html>
-<link rel="stylesheet"
-	href="//cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" />
+
 	    <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/reset.css">
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
 
 
-	 <script
-		src="//cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
 
+<style>
+.item_btn > button {
+					padding: 3px 10px;
+					border: 2px solid #58b8db;
+					border-radius: 10%;
+					font-weight: bold;
+				}
+
+</style>
 <head>
+
 <meta charset="UTF-8">
 <title>Insert title here</title>
 </head>
+
 <body>
+   
+ 
 <%@include file="../inc/head.jsp"%>
         <!--  left menu -->
   	<%@include file="../inc/left.jsp"%>
@@ -39,7 +49,7 @@
                 <input type="text" name="searchText" id="stx" class="frm_input">
                 <button type="submit" value="검색" class="btn_submit">검색</button><div id="listdiv">
 
-                <form name="signForm" method="post" onsubmit="return false;">
+                <form name="signForm" method="post" >
 
                     <table class="listTbl fixed myTable" name ="myTable">
                <colgroup>
@@ -51,7 +61,8 @@
                             <col width="100">
                             <col width="200">
                              <col width="100">
-                            <col width="300">
+                            <col width="100">
+                          <col width="100">
                         </colgroup>
                         
                         <tbody>
@@ -65,7 +76,7 @@
                                 <th class="listTitle">특이사항</th>
                                 <th class="listTitle">경고횟수</th>
                                 <th class="listTitle">경고사유</th>
-                
+                			   <th class="col-md-2">수정</th>
                             </tr>
                             
                            <!-- jspl -->
@@ -92,14 +103,13 @@
                                 <td class="listData">
                                 	<c:out value="${memberList.issu}" />
                                 </td>
-                                <td class="listData">
-                                	<c:out value="${memberList.yellowCard}" /> 
-                                </td>
+                        <td class="editable" contenteditable="true">${memberList.yellowCard} </td>
                                 <td class="listData">
                                 	<c:out value="${memberList.yellowCardWhy}" /> 
                                 </td>
-                         
-                                
+                                <td>
+                            <a href ="/admin/update?n=${memberList.id}" class="btn btn-primary" type="button" >수정</a>
+                                </td>
                             </tr>
                             
                            </c:forEach>
@@ -110,17 +120,7 @@
                 </form>
             </div>
             </form>
-    
- <script type="text/javascript">
- $(document).ready( function () {
-	    $('#myTable').DataTable(
-	    		paging:true, //paging 처리 여부다
-
-	    	
-	    
-	    );
-	} );
-	</script>
+ 
 
     <script>
         $(document).ready(function() {
@@ -129,9 +129,7 @@
                 $(this).parent().find(".seller_menu_con").toggleClass('on');
             });
         });
-    </script>
-
-
+</script>
 
 </body>
 </html>

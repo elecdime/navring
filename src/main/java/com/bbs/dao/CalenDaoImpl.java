@@ -104,5 +104,25 @@ public List<User> cut() {
 	// TODO Auto-generated method stub
 	return sql.selectList(namespace+".cut");
 }
+@Override
+public User updateuser(String id) {
+	// TODO Auto-generated method stub
+	return sql.selectOne(namespace+".updateuser",id);
+}
+@Override
+public void userupdate(User user) {
+	// TODO Auto-generated method stub
+	sql.update(namespace+".userupdate",user);
+}@Override
+public void deljoin(String id) {
+	// TODO Auto-generated method stub
+	sql.delete(namespace+".deljoin",id);
+	
+}
+@Override
+public void min(String id) {
+	// TODO Auto-generated method stub
+	sql.update(namespace+".min",id);
+}
 }
 

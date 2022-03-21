@@ -103,4 +103,22 @@ public List<User> cut() {
 	// TODO Auto-generated method stub
 	return dao.cut();
 }
+@Override
+public User updateuser(String id) {
+	// TODO Auto-generated method stub
+	return dao.updateuser(id);
+}@Override
+public void userupdate(User user) {
+	// TODO Auto-generated method stub
+	dao.userupdate(user);;
+}
+@Override
+public void deljoin(String id) {
+	// TODO Auto-generated method stub
+ dao.deljoin(id);	
+} @Override
+public void min(String id) {
+	// TODO Auto-generated method stub
+dao.min(id);	
+}
 }

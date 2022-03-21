@@ -15,6 +15,10 @@
 <title>Insert title here</title>
 </head>
 <body>
+
+
+
+
 <%@include file="../inc/head.jsp"%>
         <!--  left menu -->
   	<%@include file="../inc/left.jsp"%>
