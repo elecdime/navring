@@ -6,7 +6,7 @@
 	li {list-style: none; display:inline; padding: 6px;}
 </style>
 
-<nav class="navbar navbar-inverse">
+<nav class="navbar navbar-light" style="background-color: #e3f2fd;">
   <div class="container-fluid">
     <div class="navbar-header">
       <a class="navbar-brand" href="/">나브링</a>

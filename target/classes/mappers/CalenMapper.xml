@@ -173,4 +173,41 @@
 		calendar WHERE ID = #{calid})
 		WHERE id = #{calid}
 	</update>
+	<select id="discord" resultType="com.bbs.domain.Calendar">
+	
+		
+		SELECT DISTINCT a.id, a.title,
+		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
+		a.userid,
+		a.cateCode,c.Catecode,c.CateName,c.CatecodeRef,
+		r.calid
+		FROM CALENDAR a INNER
+		join categori_jh c
+		on
+		a.cateCode = c.cateCode
+		JOIN rade r 
+		ON 
+		a.id = r.calid;
+
+
+
+
+
+
+	
+	</select>
+		<select id="dsm" resultType="com.bbs.domain.Calendar">
+	
+	SELECT userid
+		FROM rade
+	  WHERE calid = #{id}
+	
+	</select>
+	
+	<select id="alogin" resultType="com.bbs.domain.admin">
+	
+	SELECT *  from admin
+  where id=#{id} and password=#{password}
+	
+	</select>
 </mapper>

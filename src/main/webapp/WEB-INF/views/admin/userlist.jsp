@@ -29,6 +29,18 @@
 </head>
 
 <body>
+ <c:choose>
+
+ 	<c:when test ="${login == null}">
+	                 <script type="text/javascript">
+	                  alert("로그인후 이용해주세요");
+	                  location.href='/admin/login'
+	                 </script>
+	                           
+	                   
+                    	</c:when>
+                    	<c:otherwise>
+                    
    
  
 <%@include file="../inc/head.jsp"%>
@@ -130,6 +142,7 @@
             });
         });
 </script>
-
+</c:otherwise>
+</c:choose>
 </body>
 </html>

@@ -40,12 +40,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.bbs.domain.Calendar;
 import com.bbs.domain.CategoriDTO;
 import com.bbs.domain.Rade;
+import com.bbs.domain.admin;
 import com.bbs.service.CalenService;
 import com.google.gson.Gson;
 import com.google.gson.JsonElement;
@@ -75,15 +77,106 @@ public class CalendarController {
 
 		String viewpage = "calendar";
 		List<Calendar> calendar = null;
-		try {
+		
 			calendar = service.calenList();
 			request.setAttribute("calendarList", calendar);
-		} catch (Exception e) {
-			e.printStackTrace();
-		}
+	
+	
+			
+			
+//			디스코드 api 호출
+			List<Calendar> ds = service.discord();
+	
+
+
+		    JSONObject jsonob = new JSONObject();
+	
+	
+		    for(int i = 0 ; i < ds.size(); i++) {
+		    	jsonob.put("leader",ds.get(i).getUserid());
+		        jsonob.put("content",ds.get(i).getTitle());
+		        jsonob.put("event", ds.get(i).getCateName());
+		        jsonob.put("date", ds.get(i).getStart1());
+		
+			    List<Calendar> dsm = service.dsm(ds.get(i).getId());
+			    List<String> list = new ArrayList<String>();
+			    for(int j = 0 ; j < dsm.size() ; j ++) {
+			    	list.add(dsm.get(j).getUserid());
+			    	
+			    	jsonob.put("members", list);
+			    	System.out.println("sysout"+list);
+			    }
+			    
+			    System.out.println(i+"번쨰반복"+jsonob);
+//			    try
+//			    {
+//
+//			        String host_url = "http://211.34.105.23:8080/tag";
+//			        HttpURLConnection conn = null;
+//
+//			        URL url = new URL(host_url);
+//			        conn = (HttpURLConnection)url.openConnection();
+//
+//			        conn.setRequestMethod("POST");//POST GET
+//			        conn.setRequestProperty("Content-Type", "application/json");
+//
+//			        //POST방식으로 스트링을 통한 JSON 전송
+//			        conn.setDoOutput(true);
+//			        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+//
+//			        bw.write(jsonob.toString());
+//			        bw.flush();
+//			        bw.close();
+//
+//			        //서버에서 보낸 응답 데이터 수신 받기
+//			        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+//			        String returnMsg = in.readLine();
+//			        System.out.println("응답메시지 : " + returnMsg );
+//
+//			        //HTTP 응답 코드 수신 
+//			        int responseCode = conn.getResponseCode();
+//			       if(responseCode == 400) {
+//			            System.out.println("400 : 명령을 실행 오류");
+//			       } else if (responseCode == 500) {
+//			            System.out.println("500 : 서버 에러.");
+//			        } else { //정상 . 200 응답코드 . 기타 응답코드 
+//			            System.out.println(responseCode + " : 응답코드임");
+//			        }
+//
+//			    }catch(IOException ie) {
+//			        System.out.println("IOException " + ie.getCause());
+//			        ie.printStackTrace();
+//			    }catch(Exception ee) {
+//			        System.out.println("Exception " + ee.getCause());
+//			        ee.printStackTrace();
+//			    }
+//			
+//			    
+//			    
+//			    
+//			    
+//		        }
+//		   
+
+
+
+
+
+		    //JSON 데이터 HTTP POST 전송하기 
+
+		
+
+		
+		
+		
+		    }
+		
+		
+		
 		mv.setViewName(viewpage);
 		return "cal";
 	}
+	
 
 	@RequestMapping(value = "/calview", method = RequestMethod.GET)
 	public String calview(@RequestParam("n") int id, Model model, Calendar cal, Rade rade) throws Exception {
@@ -93,7 +186,11 @@ public class CalendarController {
 		model.addAttribute("rd", rd);
 		System.out.println(cal);
 		model.addAttribute("cal", cal);
+		
 
+
+	    
+		
 		return "calview";
 	}
 
@@ -292,7 +389,7 @@ public class CalendarController {
 
 			String callback = req.getParameter("CKEditorFuncNum");
 			printWriter = res.getWriter();
-			String fileUrl = "/web/resources/ckUpload/" + uid + "_" + fileName; // 작성화면
+			String fileUrl = "/resources/ckUpload/" + uid + "_" + fileName; // 작성화면
 
 			// 업로드시 메시지 출력
 			printWriter.println("{\"filename\" : \"" + fileName + "\", \"uploaded\" : 1, \"url\":\"" + fileUrl + "\"}");
@@ -384,6 +481,12 @@ public class CalendarController {
 	
 		return "about";
 	}
+	@RequestMapping(value = "/baby", method = RequestMethod.GET)
+	public String baby(ModelAndView mv, HttpServletRequest request) {
+
+	
+		return "baby";
+	}
 	@RequestMapping(value = "/deljoin", method = RequestMethod.GET)
 	public String deljoin(@RequestParam("n") String id,Rade rade, HttpServletRequest request,@RequestParam("s") String calid) throws Exception {
 		service.deljoin(id);
@@ -394,5 +497,41 @@ public class CalendarController {
 		return "redirect:/calview?n="+calid;
 
 	}
+	@RequestMapping(value = "/admin/login", method = RequestMethod.GET)
+	public String loginadmin() {
+
+		return "/admin/login";
+
+
+    }
+	@RequestMapping(value = "/admin/login", method = RequestMethod.POST)
+	public String postlogin(HttpSession session, admin user, Model model) {
+		if(session.getAttribute("login") != null) {
+			session.removeAttribute("login");
+		}
+		admin loginuser = service.loginCheck(user);
+		
+		if(loginuser!=null) {				//	성공
+			session.setAttribute("login",loginuser);
+			logger.info("success login");
+			return "redirect:/admin/tobal";
+		}						//	실패
+		logger.info("fail login");
+		return "redirect:/";	
+	}
+	@RequestMapping(value = "/admin/logout", method = RequestMethod.GET)
+	public String adminlogout(HttpSession session) throws Exception {
+
+		session.invalidate();
+
+		return "redirect:/admin/login";
+	}
+	@RequestMapping(value = "/admin", method = RequestMethod.GET)
+	public String ladmin() {
+
+		return "/admin/login";
+
+
+    }
 
 }

@@ -13,6 +13,7 @@ import com.bbs.domain.Calendar;
 import com.bbs.domain.CategoriDTO;
 import com.bbs.domain.Rade;
 import com.bbs.domain.User;
+import com.bbs.domain.admin;
 
 
 @Repository
@@ -123,6 +124,21 @@ public void deljoin(String id) {
 public void min(String id) {
 	// TODO Auto-generated method stub
 	sql.update(namespace+".min",id);
+}
+@Override
+public List<Calendar> discord() {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".discord");
+}
+@Override
+public List<Calendar> dsm(int id) {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".dsm",id);
+}
+@Override
+public admin loginCheck(admin dto) {
+	// TODO Auto-generated method stub
+	return sql.selectOne(namespace+".alogin",dto);
 }
 }
 

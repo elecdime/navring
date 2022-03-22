@@ -5,6 +5,7 @@
     
 <!DOCTYPE html>
 <html>
+
   <link rel="stylesheet" href="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
   <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
   <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
@@ -16,6 +17,18 @@
 
 </head>
 <body>
+<c:choose>
+
+ 	<c:when test ="${login == null}">
+	                 <script type="text/javascript">
+	                  alert("로그인후 이용해주세요");
+	                  location.href='/admin/login'
+	                 </script>
+	                           
+	                   
+                    	</c:when>
+                    	<c:otherwise>
+
 <%@include file="../inc/head.jsp"%>
         <!--  left menu -->
   	<%@include file="../inc/left.jsp"%>
@@ -389,5 +402,7 @@
 			}
 		}
 	</script>
+	</c:otherwise>
+	</c:choose>
 </body>
 </html>

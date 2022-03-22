@@ -7,9 +7,9 @@
 		        <div class="container">
 		        	<div class="row">
 		        		<div class="col-md-3 footer-about wow fadeInUp">
-		        			<img class="logo-footer" src="assets/img/logo.png" alt="logo-footer" data-at2x="assets/img/logo.png">
+		        			<img class="logo-footer" src="/resources/img/notice.png" alt="logo-footer" data-at2x="/resources/img/notice.png">
 		        			<p>
-		        				We are a young company always looking for new and creative ideas to help you with our products in your everyday work.
+		        				응애 
 		        			</p>
 		        			<p><a href="#">Our Team</a></p>
 	                    </div>

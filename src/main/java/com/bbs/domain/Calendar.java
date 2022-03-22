@@ -24,8 +24,8 @@ public class Calendar {
 	private String username;
 	private String leader_id;
 	private String cateName ,cateCodeRef,cateMax,cateMin,cateCode;
-	 private int calid;
+	 private int calid,rid;
 	 private String nickname;
-	 private String userid;
+	 private String userid,ruser;
 	/*set/get메서드*/
     }

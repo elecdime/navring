@@ -8,7 +8,7 @@
 <html>
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <head>
-
+  	<%@include file="inc/meta.jsp" %>
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.css">
 
 <script src="https://cdn.jsdelivr.net/npm/fullcalendar@5.10.1/main.js"></script>
@@ -77,6 +77,8 @@
 <body>
 	<%@include file="inc/top.jsp" %>
    <div id='calendar'></div>
+   
+   	<%@include file="inc/footer.jsp" %>
 </body>
 
 </html>

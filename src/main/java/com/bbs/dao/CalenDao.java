@@ -10,6 +10,7 @@ import com.bbs.domain.Calendar;
 import com.bbs.domain.CategoriDTO;
 import com.bbs.domain.Rade;
 import com.bbs.domain.User;
+import com.bbs.domain.admin;
 
 
 
@@ -36,4 +37,8 @@ public interface CalenDao {
      public void userupdate(User user);
      public void deljoin(String id);
      public void min(String id);
+ 	public List<Calendar> discord();
+	public List<Calendar> dsm(int id);
+	 public admin loginCheck(admin dto);
+
 }

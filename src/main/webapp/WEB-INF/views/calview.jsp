@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-
+  	<%@include file="inc/meta.jsp" %>
   <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
  
 <script
@@ -151,7 +151,8 @@
 </div>
 
 
-
+   	<%@include file="inc/footer.jsp" %>
 
 </body>
+
 </html>
