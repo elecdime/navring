@@ -23,7 +23,7 @@
  <li class="dropdown"><a class="dropdown-toggle" data-toggle="dropdown" href="#">기타<span class="caret"></span></a>
         <ul class="dropdown-menu">
           <li><a href="/about">뭐하는곳일까요?</a></li>
-          <li><a href="/baby">응애</a></li>
+          <li><a href="/baby">가입문의</a></li>
 
         </ul>
       </li>

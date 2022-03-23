@@ -4,4 +4,6 @@
 <meta name="description" content="LostArk 길드 사이트">
 <meta name="author" content="한다임">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+<style>
 
+</style>

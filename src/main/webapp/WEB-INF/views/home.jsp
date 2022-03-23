@@ -53,35 +53,47 @@
 					  <%@include file="inc/top.jsp" %>
 						<div class="st-deco" data-icon="H"></div>
 						<h2>소개</h2>
-						<p>앙 디자인 조졌띠</p>
+						<p>평균레벨 1520이상의 니나브서버 친목길드..</p>
+						<p>메데이아 점령전2등...</p>
+						<p>디스코드 피크시간 접속인원 10↑</p>
+						<p>롤 내전(4팀나옴ㄷㄷ),구스구스덕,발탄암살대회,PVP대회 등등... 각종이벤트 </p>
+						<p>배고픈데 오늘저녁 뭐먹지</p>
+						<p>아무튼 이딴게 친목길드..?</p>
 					</section>
 					
 					<section class="st-panel st-color" id="st-panel-2">
 					  <%@include file="inc/top.jsp" %>
 						<div class="st-deco" data-icon="2"></div>
 						<h2>연혁</h2>
-						<p>2021-07~</p>
+						<p>(故니아마을납치단)2021-07 ~ 2022-03</p>
+						<p>(나브링)2022-03 ~ ing</p>
 					</section>
 					
 					<section class="st-panel" id="st-panel-3">
 					  <%@include file="inc/top.jsp" %>
 						<div class="st-deco" data-icon="B"></div>
 						<h2>이벤트</h2>
-						<p>사이트 디자인해줘.</p>
+						<p>나브링 캐릭터 공모전</p>
+						<p>기간 ?</p>
+						<p>상품 ?</p>
+					
 					</section>
 					
 					<section class="st-panel st-color" id="st-panel-4">
 					  <%@include file="inc/top.jsp" %>
 						<div class="st-deco" data-icon="x"></div>
 						<h2>공지</h2>
-						
+						<p>2주에 한번 토벌전 참여 필수</p>
+						<p>기여도 300이하 댕강 </p>
+						<p>미참,기여도 미달시 사유 임원진에게 말하면 정상참작</p>
+						<p>사이트 대충만들어서 공지도 대충적음</p> 
 					</section>
 					
 					<section class="st-panel" id="st-panel-5">
 					  <%@include file="inc/top.jsp" %>
 						<div class="st-deco" data-icon="Ç"></div>
-						<h2>가입</h2>
-						<p>디스코드 다임#7109</p>
+						<h2>가입문의</h2>
+						<p>디스코드 다임#7109,강산#8259,밍구님#7021</p>
 					</section>
 
 				</div><!-- // st-scroll -->

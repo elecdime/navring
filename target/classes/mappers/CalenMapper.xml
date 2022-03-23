@@ -174,7 +174,7 @@
 		WHERE id = #{calid}
 	</update>
 	<select id="discord" resultType="com.bbs.domain.Calendar">
-	
+	   <![CDATA[
 		
 		SELECT DISTINCT a.id, a.title,
 		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
@@ -187,9 +187,10 @@
 		a.cateCode = c.cateCode
 		JOIN rade r 
 		ON 
-		a.id = r.calid;
+		a.id = r.calid  
+		where START1 >= DATE_ADD(NOW(), INTERVAL -30 MINUTE) AND START1 < DATE_ADD(NOW(), INTERVAL +30 MINUTE)
 
-
+	]]>
 
 
 

@@ -32,6 +32,7 @@ import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -77,102 +78,12 @@ public class CalendarController {
 
 		String viewpage = "calendar";
 		List<Calendar> calendar = null;
-		
+		System.out.println( "응애"+service.discord());
 			calendar = service.calenList();
 			request.setAttribute("calendarList", calendar);
 	
-	
 			
-			
-//			디스코드 api 호출
-			List<Calendar> ds = service.discord();
-	
 
-
-		    JSONObject jsonob = new JSONObject();
-	
-	
-		    for(int i = 0 ; i < ds.size(); i++) {
-		    	jsonob.put("leader",ds.get(i).getUserid());
-		        jsonob.put("content",ds.get(i).getTitle());
-		        jsonob.put("event", ds.get(i).getCateName());
-		        jsonob.put("date", ds.get(i).getStart1());
-		
-			    List<Calendar> dsm = service.dsm(ds.get(i).getId());
-			    List<String> list = new ArrayList<String>();
-			    for(int j = 0 ; j < dsm.size() ; j ++) {
-			    	list.add(dsm.get(j).getUserid());
-			    	
-			    	jsonob.put("members", list);
-			    	System.out.println("sysout"+list);
-			    }
-			    
-			    System.out.println(i+"번쨰반복"+jsonob);
-//			    try
-//			    {
-//
-//			        String host_url = "http://211.34.105.23:8080/tag";
-//			        HttpURLConnection conn = null;
-//
-//			        URL url = new URL(host_url);
-//			        conn = (HttpURLConnection)url.openConnection();
-//
-//			        conn.setRequestMethod("POST");//POST GET
-//			        conn.setRequestProperty("Content-Type", "application/json");
-//
-//			        //POST방식으로 스트링을 통한 JSON 전송
-//			        conn.setDoOutput(true);
-//			        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
-//
-//			        bw.write(jsonob.toString());
-//			        bw.flush();
-//			        bw.close();
-//
-//			        //서버에서 보낸 응답 데이터 수신 받기
-//			        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-//			        String returnMsg = in.readLine();
-//			        System.out.println("응답메시지 : " + returnMsg );
-//
-//			        //HTTP 응답 코드 수신 
-//			        int responseCode = conn.getResponseCode();
-//			       if(responseCode == 400) {
-//			            System.out.println("400 : 명령을 실행 오류");
-//			       } else if (responseCode == 500) {
-//			            System.out.println("500 : 서버 에러.");
-//			        } else { //정상 . 200 응답코드 . 기타 응답코드 
-//			            System.out.println(responseCode + " : 응답코드임");
-//			        }
-//
-//			    }catch(IOException ie) {
-//			        System.out.println("IOException " + ie.getCause());
-//			        ie.printStackTrace();
-//			    }catch(Exception ee) {
-//			        System.out.println("Exception " + ee.getCause());
-//			        ee.printStackTrace();
-//			    }
-//			
-//			    
-//			    
-//			    
-//			    
-//		        }
-//		   
-
-
-
-
-
-		    //JSON 데이터 HTTP POST 전송하기 
-
-		
-
-		
-		
-		
-		    }
-		
-		
-		
 		mv.setViewName(viewpage);
 		return "cal";
 	}
@@ -189,6 +100,10 @@ public class CalendarController {
 		
 
 
+	    
+	    
+	    
+	    
 	    
 		
 		return "calview";
@@ -279,9 +194,10 @@ public class CalendarController {
 			String jsonStr = null;
 			JSONObject obj = null;
 			// 니아단 봇에있는 유저정보 들고오는부분
-			jsonStr = Jsoup.connect("http://211.34.105.23:8080/members/" + user.getId()).ignoreContentType(true)
+			jsonStr = Jsoup.connect("http://api.nabring.kr:8080/members/" + user.getId()).ignoreContentType(true)
 					.execute().body();
 			System.out.println(jsonStr);
+		
 			JSONObject jsonObj = new JSONObject(jsonStr);
 			// 가입되어있는지 체크하는부분
 			Object chid = jsonObj.get("id");
@@ -533,5 +449,8 @@ public class CalendarController {
 
 
     }
-
+	
+	
+		
+	    
 }
