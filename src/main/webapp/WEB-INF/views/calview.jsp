@@ -95,7 +95,7 @@
 	<label name ="nickname">${rd.nickname}, </label>
 	 <c:if test ="${rd.userid == user.id}">
 
-	   <a href="/deljoin?n=${rd.id}&s=${rd.calid}" class="btn btn-warning">참가취소</a>
+	   <button type="button" onclick="location.href='/deljoin?n=${rd.id}&s=${rd.calid}';" class="btn btn-warning test-button1" name ="test-button1" id ="test-button1">참가취소</button>
 	 </c:if>
 	
 		</c:forEach>
@@ -127,12 +127,12 @@
  </form>
 </span>
 <p></p>
-
+ <button type="button" id="list_btn" class="btn btn-primary">목록</button>
 </div>
 <hr>
 
 				
- <button type="button" id="list_btn" class="btn btn-primary">목록</button>
+
 <div class="inputArea">
 
 
@@ -144,9 +144,17 @@
 		
 		self.location = "/cal";					
 	});
-
+ 
+	$("#test-button1").click(function(){
+		
+		alert("참가취소를 여러번 누르지 말아주세요 ");		
+			
+	});
 	</script>
+<script type="text/javascript">
 
+
+</script>
  
 </div>
 

@@ -26,34 +26,21 @@ import com.bbs.domain.Calendar;
 import com.bbs.service.CalenService;
 @Service
 
-public class SchedulerService{
+public class SchedulerService {
 	@Autowired
 	private CalenService service;
 
-	@Resource(name = "uploadPath")
-	private String uploadPath;
 	private static final Logger logger = LoggerFactory.getLogger(SchedulerService.class);
 
-	@Scheduled(cron = "0 0/30 * * * ?")
-	public void scheduleRun() {
+	@Scheduled(cron = "0 0/5 * * * ?")
+	public void scheduleRun() throws Exception {
 		// TODO Auto-generated method stub
-		 try{
-			 	
-				pushdb();
-	
-	        }catch(Exception e){
-	            e.printStackTrace();
-	        }
-	    }
-	
 		
-	
-
-	public void pushdb() {
-		System.out.println("응애");
+			 	
+		logger.info("스케줄러실행");
 		
 		List<Calendar> ds = service.discord();
-		System.out.println(ds);
+
 
 	    JSONObject jsonob = new JSONObject();
 
@@ -70,15 +57,18 @@ public class SchedulerService{
 		    	list.add(dsm.get(j).getUserid());
 		    	
 		    	jsonob.put("members", list);
-		    	System.out.println("sysout"+list);
+		    	logger.info("sysout"+list);
 		    }
 		    
 		  //  System.out.println(i+"번쨰반복"+jsonob);
 		 
 		    }
-	    try
-	    {
-	    	System.out.println("응애"+jsonob);
+	    
+	    
+	    
+	    
+	    
+	    	System.out.println(jsonob);
 	        String host_url = "http://api.nabring.kr:8080/tag";
 	        HttpURLConnection conn = null;
 
@@ -99,35 +89,26 @@ public class SchedulerService{
 	        //서버에서 보낸 응답 데이터 수신 받기
 	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 	        String returnMsg = in.readLine();
-	        System.out.println("응답메시지 : " + returnMsg );
+	        logger.info("응답메시지 : " + returnMsg );
 
 	        //HTTP 응답 코드 수신 
 	        int responseCode = conn.getResponseCode();
 	       if(responseCode == 400) {
-	            System.out.println("400 : 명령을 실행 오류");
+	           logger.info("400 : 명령을 실행 오류");
 	       } else if (responseCode == 500) {
-	            System.out.println("500 : 서버 에러.");
+	    	   logger.info("500 : 서버 에러.");
 	        } else { //정상 . 200 응답코드 . 기타 응답코드 
-	            System.out.println(responseCode + " : 응답코드임");
+	        	 logger.info(responseCode + " : 응답코드임");
 	        }
 
-	    }catch(IOException ie) {
-	        System.out.println("IOException " + ie.getCause());
-	        ie.printStackTrace();
-	    }catch(Exception ee) {
-	        System.out.println("Exception " + ee.getCause());
-	        ee.printStackTrace();
 	    }
 	
 	    
-	    
-	    
-	    
-	    
-	    }
-	   
+	 
+	
+		
+	
+
 }
-
-
 
 

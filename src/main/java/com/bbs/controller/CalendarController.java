@@ -25,6 +25,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.HttpResponse;
 import org.json.JSONObject;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
@@ -97,7 +98,17 @@ public class CalendarController {
 		model.addAttribute("rd", rd);
 		System.out.println(cal);
 		model.addAttribute("cal", cal);
+	System.out.println("응애");
 		
+		List<Calendar> ds = service.discord();
+		System.out.println(ds);
+
+	    JSONObject jsonob = new JSONObject();
+
+
+
+	    
+	    
 
 
 	    
@@ -110,7 +121,7 @@ public class CalendarController {
 	}
 
 	@RequestMapping(value = "/radejoin", method = RequestMethod.POST)
-	public String radejoin(@RequestParam("n") int id, Rade rade, HttpServletRequest request) throws Exception {
+	public String radejoin(@RequestParam("n") int id, Rade rade, HttpServletRequest request, HttpServletResponse response) throws Exception {
 		List<Rade> nickcheek = service.radeList(id);
 		System.out.println(nickcheek);
 		rade.setCalid(id);
@@ -129,6 +140,16 @@ public class CalendarController {
 		System.out.println(nk);
 			if(nickcheek.toString().contains(nk)) {
 				System.out.println("중복참여 불가");
+				response.setContentType("text/html; charset=UTF-8");
+				 
+				PrintWriter out = response.getWriter();
+				 
+				out.println("<script>alert('중복참여 ㄴㄴ'); location.href='/calview?n="+id+"';</script>");
+				 
+				out.flush();
+
+
+	
 				
 			}
 			else {
@@ -166,10 +187,10 @@ public class CalendarController {
 		String client_secret = "M0jsQBmIRNAzMemKH63rQz8h1qqHQdMf";
 		String grant_type = "authorization_code";
 
-		String redirect_uri = "http://127.0.0.1:8000/users/login/redirect";
+		String redirect_uri = "http://nabring.kr/users/login/redirect";
 		String[] scope = { "identify", "guilds.members.read", "guilds" };
 		DiscordOAuth discordOAuth2 = new DiscordOAuth(client_id, client_secret,
-				"http://127.0.0.1:8000/users/login/redirect", scope);
+				"http://nabring.kr/users/login/redirect", scope);
 		//System.out.println(discordOAuth2);
 		String url = discordOAuth2.getAuthorizationURL("");
 		System.out.println(url);
@@ -450,7 +471,7 @@ public class CalendarController {
 
     }
 	
-	
+
 		
 	    
 }

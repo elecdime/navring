@@ -34,7 +34,7 @@
 	                    
 	                           
 	                                 
-     								 <li><a href="https://discord.com/api/oauth2/authorize?response_type=code&client_id=894943429283446814&redirect_uri=http%3A%2F%2F127.0.0.1%3A8000%2Fusers%2Flogin%2Fredirect&scope=identify%20guilds.members.read%20guilds"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+     								 <li><a href="https://discord.com/api/oauth2/authorize?client_id=894943429283446814&redirect_uri=http%3A%2F%2Fnabring.kr%2Fusers%2Flogin%2Fredirect&response_type=code&scope=identify%20guilds%20guilds.members.read"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
 	                        </span>
 	                        </ul>
                     	</c:when>
