@@ -96,9 +96,13 @@
 	 <c:if test ="${rd.userid == user.id}">
 
 	   <button type="button" onclick="location.href='/deljoin?n=${rd.id}&s=${rd.calid}';" class="btn btn-warning test-button1" name ="test-button1" id ="test-button1">참가취소</button>
+  <button type="button" id="gorade_btn" class="btn btn-primary" onclick="location.href='/gorade?n=${cal.id}'; alert('참가호출이후 나오는 520에러페이지는 정상작동중인거에요');">참가자 호출</button>
+ 	 <input type="hidden" name="s" value="${rade.id}" />
 	 </c:if>
 	
+	
 		</c:forEach>
+		
 		 <c:choose>
                     	<c:when test ="${user == null}">
 	                    
@@ -118,6 +122,7 @@
  	 
  	 		<c:if test="${cal.cateMax > cal.cateMin}">
  <button type="submit" id="join" class="btn btn-primary">참가</button>
+ 
 
  </c:if>
        </c:if>
@@ -128,6 +133,12 @@
 </span>
 <p></p>
  <button type="button" id="list_btn" class="btn btn-primary">목록</button>
+ 	 <c:if test ="${cal.leader_id == user.name}">
+ 	  <button type="button" id="gorade_btn" class="btn btn-primary" onclick="location.href='/gorade?n=${cal.id}'; alert('참가호출이후 나오는 520에러페이지는 정상작동중인거에요');">참가자 호출</button>
+ 	
+ 	
+ 	 </c:if>
+ 
 </div>
 <hr>
 

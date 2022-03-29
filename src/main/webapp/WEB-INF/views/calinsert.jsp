@@ -16,7 +16,7 @@
 <%--  <script src="${pageContext.request.contextPath}/resources/js/fileupload.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/fileuplaod.css"> --%>
 
-<title>Insert title here</title>
+<title>레이드 만들기</title>
 
 <script>	 
 

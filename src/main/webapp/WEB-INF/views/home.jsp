@@ -7,6 +7,8 @@
 
 <head>
   	<%@include file="inc/meta.jsp" %>
+	  <meta name="naver-site-verification" content="57a078cc55a48ce14fe42b80fb42f3f815842f2d" />
+  	<meta name="google-site-verification" content="7_Lfkd7uYZXr2qF5IkxrhkR9HM-dyZ0244mzB8c-N1o" />
   	 <link rel="shortcut icon" href="../favicon.ico"> 
 		<link href='http://fonts.googleapis.com/css?family=Josefin+Slab:400,700' rel='stylesheet' type='text/css'>
         <link rel="stylesheet" type="text/css" href="${pageContext.request.contextPath}/resources/css/demo.css" />
@@ -18,7 +20,7 @@
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-	<title>Home</title>
+	<title>나브링</title>
 </head>
 
  <div class="container">

@@ -163,4 +163,14 @@ public class CalServcieImpl implements CalenService {
 		 
 		 return dao.loginCheck(dto);
 	 }
+	 @Override
+	public List<Calendar> dis(String id) {
+		// TODO Auto-generated method stub
+		return dao.dis(id);
+	}
+	 @Override
+	public User boginCheck(User dto) {
+		// TODO Auto-generated method stub
+		return dao.dloginCheck(dto);
+	}
 }

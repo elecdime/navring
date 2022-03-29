@@ -139,6 +139,18 @@ public List<Calendar> dsm(int id) {
 public admin loginCheck(admin dto) {
 	// TODO Auto-generated method stub
 	return sql.selectOne(namespace+".alogin",dto);
+	
 }
+@Override
+public List<Calendar> dis(String id) {
+	// TODO Auto-generated method stub
+	return sql.selectList(namespace+".dis",id);
+}
+@Override
+public User dloginCheck(User dto) {
+	// TODO Auto-generated method stub
+	return sql.selectOne(namespace+".blogin",dto);
+}
+
 }
 

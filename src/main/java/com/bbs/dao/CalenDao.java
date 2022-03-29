@@ -40,5 +40,6 @@ public interface CalenDao {
  	public List<Calendar> discord();
 	public List<Calendar> dsm(int id);
 	 public admin loginCheck(admin dto);
-
+	 public List<Calendar> dis(String id);
+	 public User dloginCheck(User dto);
 }

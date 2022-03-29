@@ -1,89 +1,71 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<Configuration>
-	<!--
-	OFF : 가능한 가장 높은 순위이며 로깅을 해제
-	FATAL : 조기 종료를 유발하는 심각한 오류. 콘솔에 즉시 표시 될 것으로 예상
-	ERROR :런타임 오류 또는 예기치 않은 조건. 콘솔에 즉시 표시
-	̶W̶A̶R̶N̶ :더 이상 사용되지 않는 API 사용, ‘거의’오류에 가까운 상황. 상태 콘솔에 즉시 표시
-	INFO : 런타임 이벤트. 콘솔에 즉시 보일 것으로 예상되므로 보수적이며 최소한으로 유지
-	DEBUG : 시스템을 통한 흐름에 대한 자세한 정보. 로그에만 쓰여질 것으로 예상, 일반적으로 응용 프로그램에서 기록한 대부분의 줄은 DEBUG로 작성.
-	TRACE : 가장 자세한 정보. 이것들은 로그에만 쓰여질 것으로 예상됩니다.  
-	-->	
-	<!--  해당 설정파일에서 사용하는 프로퍼티-->
-    <Properties>
-        <Property name="logNm">Log4j2 Test Log</Property>
-        <Property name="layoutPattern">%style{%d{yyyy/MM/dd HH:mm:ss,SSS}}{cyan} %highlight{[%-5p]}{FATAL=bg_red, ERROR=red,
-            INFO=green, DEBUG=blue}  [%C] %style{[%t]}{yellow}- %m%n -</Property>
-    </Properties>
+<!DOCTYPE log4j:configuration PUBLIC "-//APACHE//DTD LOG4J 1.2//EN" "log4j.dtd">
+<log4j:configuration
+    xmlns:log4j="http://jakarta.apache.org/log4j/">
+ 
+    <!-- Appenders -->
+    <appender name="console"
+        class="org.apache.log4j.ConsoleAppender">
+        <param name="Target" value="System.out" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%-5p: %c - %m%n" />
+        </layout>
+    </appender>
+ 
+    <!-- 날짜별 로그 파일 생성 -->
+    <appender name="rollingFile"
+        class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="File" value="/home/log/log.log" />
+        <param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %p [%C{10}] %m %n" />
+        </layout>
+    </appender>
     
-	<Appenders>
-		<!-- 
-		%c, %logger : 해당 로그를 쓰는 로거의 이름.
-		%C, %class : 해당 로그를 요청한 클래스 이름
-		%d, %date : 해당 로그가 발생한 시간
-		%enc, %encode : 특정 언어에서의 출력을 위한 문자 인코딩
-		%ex, %exception, %throwable : 예외 로그. 길이를 설정할 수 있음.
-		%F, %file : 해당 로그가 발생한 클래스 파일명
-		%l, %location : 해당 로그가 발생한 클래스명.메소드명(파일:라인)
-		%L, %line : 해당 로그가 발생한 라인 번호
-		%m, %msg, %message : 로그문에 전달된 메시지
-		%n : 줄바꿈
-		%p, %level : 로그 레벨
-		%r, %relative : 로그 처리시간
-		%t, %thread : 해당 로그가 발생한 스레드명
-		%style{pattern}{ANSI style} : ANSI를 사용해 특정 패턴을 스타일링함
-		%highlight{pattern}{style} : 로그 레벨명을 ANSI 색깔로 하이라이트
-		-->
-		
-		<!-- 콘솔에 출력 -->
-        <Console name="console" target="SYSTEM_OUT">
-            <!-- <PatternLayout pattern="%d %5p [%c] %m%n" /> -->
-            <PatternLayout pattern="${layoutPattern}" />
-        </Console>
-        
-        <!-- 파일에 출력 -->
-        <RollingFile name="File_Appender" fileName="/home/${logNm}.log" filePattern="/var/lib/tomcat9/logs/${logNm}_%d{yyyy-MM-dd}_%i.log.gz">
-            <PatternLayout pattern="${layoutPattern}"/>
-            <Policies>
-            	<!-- size 단위: Byte(default), KB, MB, or GB 초과시 -->
-                <SizeBasedTriggeringPolicy size="10KB"/>
-                <!-- 1일 단위 -->
-                <TimeBasedTriggeringPolicy interval="1"/>
-            </Policies>
-            <!--
-            	파일 용량 제한 초과시 
-            	min 작은 index가 최신 파일, max로 설정 시 높은 index가 더 최신 파일
-            	max : counter 최대값. 만약 최대값에 도달하면 오래된 파일을 삭제합니다. 기본값은 7 
-            -->
-            <DefaultRolloverStrategy max="10" fileIndex="min"/>
-        </RollingFile>
-    </Appenders>
-    
-    
-    <Loggers>
-    	<Root level="ERROR">
-    		<AppenderRef ref="console" />
-            <AppenderRef ref="File_Appender"/>
-        </Root>
-        
-        <!-- additivity : 중복로깅여부 -->
-		<logger name="centum.common.interceptor.LoggingInterceptor" level="DEBUG"  additivity="false">
-			<AppenderRef ref="File_Appender"/>
-		</logger>
-     
-		 <!-- log SQL with timing information, post execution -->
-	    <Logger name="jdbc.sqltiming" level="DEBUG" additivity="false">
-	        <AppenderRef ref="File_Appender"/>
-	    </Logger>
-	    
-	     <!-- 스프링 프레임워크에서 찍히는 -->
-	    <Logger name="org.springframework" level="ERROR" additivity="false">
-	        <AppenderRef ref="File_Appender"/>
-	    </Logger>
-	    
-	    <Logger name="jdbc.resultsettable" level="DEBUG" additivity="false">
-			<AppenderRef ref="File_Appender"/>
-		</Logger>
-    </Loggers>
-</Configuration>
-
+    <!-- 날짜별 로그 파일 생성(에러만) -->
+    <appender name="errFile"
+        class="org.apache.log4j.DailyRollingFileAppender">
+        <param name="Threshold" value="debug" />
+        <param name="File" value="/home/log/errorLog.log" />
+        <param name="Append" value="true" /> <!-- param name="MaxFileSize" value="100MB"/ --> <!-- param name="MaxBackupIndex" value="2"></param -->
+        <param name="DatePattern" value="'.'yyyy-MM-dd" />
+        <layout class="org.apache.log4j.PatternLayout">
+            <param name="ConversionPattern" value="%d %5p [%C{1}] %m %n" />
+        </layout>
+    </appender>
+ 
+    <!-- Application Loggers -->
+    <logger name="project.spring.travel">
+        <level value="info" />
+    </logger>
+ 
+    <!-- 3rdparty Loggers -->
+    <logger name="org.springframework.core">
+        <level value="info" />
+    </logger>
+ 
+    <logger name="org.springframework.beans">
+        <level value="info" />
+    </logger>
+ 
+    <logger name="org.springframework.context">
+        <level value="info" />
+    </logger>
+ 
+    <logger name="org.springframework.web">
+        <level value="info" />
+    </logger>
+ 
+    <!-- Root Logger -->
+    <root>
+        <!-- ===== Log4 로그 표시 수준 변경 ===== - 웹 페이지가 실행되는 동안 SQL구문이 로그에 출력되도록 하기 
+            위해서는 로그의 표시 수준을 debug로 변경한다. - 로그는 높은 수준으로 설정할 수록 출력되는 수준에 대한 범위가 넓어진다. - 
+            로그 표시 수준 TRACE (모든 로그 표시 > DEBUG > INFO > WARN > ERROR > FATAL (로그 표시 안함) -->
+        <priority value="debug" />
+        <appender-ref ref="console" />
+        <appender-ref ref="rollingFile" />
+        <appender-ref ref="errFile" />
+    </root>
+ 
+</log4j:configuration>

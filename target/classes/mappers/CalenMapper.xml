@@ -211,4 +211,27 @@
   where id=#{id} and password=#{password}
 	
 	</select>
+	<select id="dis" resultType="com.bbs.domain.Calendar">
+		
+			SELECT DISTINCT a.id, a.title,
+		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
+		a.userid,
+		a.cateCode,c.Catecode,c.CateName,c.CatecodeRef,
+		r.calid,r.userid,r.nickname
+		FROM CALENDAR a INNER
+		join categori_jh c
+		on
+		a.cateCode = c.cateCode
+		JOIN rade r 
+		ON 
+		a.id = r.calid  
+		WHERE a.id = #{id}
+	
+	</select>
+		<select id="blogin" resultType="com.bbs.domain.User">
+	
+	SELECT *  from user
+  	where aid=#{aid} and apw= #{apw}
+	
+	</select>
 </mapper>

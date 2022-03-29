@@ -13,7 +13,7 @@
 <%--  <script src="${pageContext.request.contextPath}/resources/js/fileupload.js"></script>
   <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/fileuplaod.css"> --%>
 
-<title>Insert title here</title>
+<title>가입신청</title>
 </head>
 <body>
 	<%@include file="inc/top.jsp" %>

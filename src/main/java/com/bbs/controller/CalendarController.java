@@ -470,8 +470,125 @@ public class CalendarController {
 
 
     }
+	//참가자호출
+	@RequestMapping(value = "/gorade", method = RequestMethod.GET)
+	public String radego(@RequestParam("n") String id,Rade rade, HttpServletRequest request)throws Exception {
+
+		List<Calendar> dis = service.dis(id);
+
+
+	    JSONObject jsonob = new JSONObject();
+	    List<String> list = new ArrayList<String>();
+
+	    list.add(dis.get(0).getUserid());
+
+	    for(int i = 0 ; i < dis.size() ; i ++) {
+	 
+	    	jsonob.put("leader",dis.get(i).getUserid());
+	        jsonob.put("content",dis.get(i).getTitle());
+	        jsonob.put("event", dis.get(i).getCateName());
+	        jsonob.put("date", dis.get(i).getStart1());
 	
+		    List<Calendar> dsm = service.dsm(dis.get(i).getId());
+		
+		    for(int j = 0 ; j < dsm.size() ; j ++) {
+		    	list.add(dsm.get(j).getUserid());
+		    	
+		    	jsonob.put("members", list);
+		    	logger.debug("sysout"+list);
+		
+		    }
+	    }
+		  //  System.out.println(i+"번쨰반복"+jsonob);
+		
+	    
+	    
+	    
+	    
+	    
+	    	System.out.println(jsonob);
+	        String host_url = "http://api.nabring.kr:8080/tag";
+	        HttpURLConnection conn = null;
+
+	        URL url = new URL(host_url);
+	        conn = (HttpURLConnection)url.openConnection();
+
+	        conn.setRequestMethod("POST");//POST GET
+	        conn.setRequestProperty("Content-Type", "application/json");
+
+	        //POST방식으로 스트링을 통한 JSON 전송
+	        conn.setDoOutput(true);
+	        BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
+
+	        bw.write(jsonob.toString());
+	        bw.flush();
+	        bw.close();
+
+	        //서버에서 보낸 응답 데이터 수신 받기
+	        BufferedReader in = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        String returnMsg = in.readLine();
+	        logger.info("응답메시지 : " + returnMsg );
+
+	        //HTTP 응답 코드 수신 
+	        int responseCode = conn.getResponseCode();
+	       if(responseCode == 400) {
+	           logger.info("400 : 명령을 실행 오류");
+	       } else if (responseCode == 500) {
+	    	   logger.info("500 : 서버 에러.");
+	        } else { //정상 . 200 응답코드 . 기타 응답코드 
+	        	 logger.info(responseCode + " : 응답코드임");
+	        }
+
+	    
+
+
 
 		
+		
+		return "/cal";
+
+
+    }
+	@RequestMapping(value = "/error", method = RequestMethod.GET)
+	public String error(ModelAndView mv, HttpServletRequest request) {
+
+	
+		return "/error";
+	}
+	@RequestMapping(value = "/error-404", method = RequestMethod.GET)
+	public String error404(ModelAndView mv, HttpServletRequest request) {
+
+	
+		return "/error-404";
+	}
+	@RequestMapping(value = "/error-500", method = RequestMethod.GET)
+	public String error500(ModelAndView mv, HttpServletRequest request) {
+
+	
+		return "/error-500";
+	}
+
+	@RequestMapping(value = "/blogin", method = RequestMethod.POST)
+	public String bpostlogin(HttpSession session, com.bbs.domain.User user, Model model) {
+		if(session.getAttribute("user") != null) {
+			session.removeAttribute("user");
+		}
+		com.bbs.domain.User loginuser = service.boginCheck(user);
+		
+		if(loginuser!=null) {				//	성공
+			session.setAttribute("user",loginuser);
+			logger.info("success login");
+			return "redirect:/cal";
+		}						//	실패
+		logger.info("fail login");
+		return "redirect:/";	
+	}
+	@RequestMapping(value = "/blogin", method = RequestMethod.GET)
+	public String blogin() {
+
+		return "/blogin";
+
+
+    }
 	    
 }

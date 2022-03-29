@@ -22,5 +22,5 @@ public class User {
     private int MemberCount,a;// 회어ㅜㄴ수
     private String searchCulumn; //컬럼
 	private String searchText; // 텍스트
-	private String subdate;
+	private String subdate,aid,apw;
 }
