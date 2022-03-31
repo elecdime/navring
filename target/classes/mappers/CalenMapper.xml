@@ -110,7 +110,7 @@
 	</select>
 
 	<insert id="readjoin">
-		INSERT INTO rade (calid,nickname,userid) VALUES (#{calid},#{nickname},#{userid})
+		INSERT INTO rade (calid,nickname,userid,job) VALUES (#{calid},#{nickname},#{userid},#{job})
 	</insert>
 	<update id="overjoin">
 		UPDATE calendar set

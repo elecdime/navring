@@ -92,7 +92,7 @@
 <label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
 <span><c:forEach items="${rd}" var="rd">
 	<input type="hidden" value="${rd.id}">
-	<label name ="nickname">${rd.nickname}, </label>
+	<label name ="nickname">${rd.nickname}(직업:${rd.job}), </label>
 	 <c:if test ="${rd.userid == user.id}">
 
 	   <button type="button" onclick="location.href='/deljoin?n=${rd.id}&s=${rd.calid}';" class="btn btn-warning test-button1" name ="test-button1" id ="test-button1">참가취소</button>
@@ -121,6 +121,7 @@
  	 
  	 
  	 		<c:if test="${cal.cateMax > cal.cateMin}">
+ 	 		<labe>참가하는 직업</labe><input type="text" id = "job" name ="job" placeholder="직업을 입력하십쇼" >
  <button type="submit" id="join" class="btn btn-primary">참가</button>
  
 

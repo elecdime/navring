@@ -12,5 +12,6 @@ public class Rade {
  private int calid;
  private String nickname;
  private String userid;
+ private String job;
  
 }
