@@ -96,26 +96,11 @@ public class CalendarController {
 		List<Rade> rd = null;
 		rd = service.radeList(id);
 		model.addAttribute("rd", rd);
-		System.out.println(cal);
 		model.addAttribute("cal", cal);
-	System.out.println("응애");
 		
 		List<Calendar> ds = service.discord();
-		System.out.println(ds);
 
 	    JSONObject jsonob = new JSONObject();
-
-
-
-	    
-	    
-
-
-	    
-	    
-	    
-	    
-	    
 		
 		return "calview";
 	}

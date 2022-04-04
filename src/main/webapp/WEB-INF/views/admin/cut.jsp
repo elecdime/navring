@@ -12,7 +12,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>나브링 짤릴친구들..</title>
 </head>
 <body>
 

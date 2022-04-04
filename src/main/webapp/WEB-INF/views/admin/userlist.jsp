@@ -25,7 +25,7 @@
 <head>
 
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>아 ㅋㅋ모든유저가 여기뜬다고~</title>
 </head>
 
 <body>

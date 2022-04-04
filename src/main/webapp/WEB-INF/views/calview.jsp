@@ -20,7 +20,7 @@
   
 
 
-<title>Insert title here</title>
+<title>가즈아~~!</title>
 
 <style type="text/css">
 .gdsDes img { max-width:600px; height:auto; }

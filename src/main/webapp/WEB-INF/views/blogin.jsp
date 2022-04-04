@@ -5,7 +5,7 @@
 <html lang="kr">
 	<head>
 	<meta charset="UTF-8">
-	<title>닝쿠님 전용 로그인페이지 ^^</title>
+	<title>닝쿠님,영뿐님 전용 로그인페이지 ^^</title>
 
 <style rel="stylesheet">
 html {
@@ -306,7 +306,7 @@ body {
   <div class="form-toggle"></div>
   <div class="form-panel one">
     <div class="form-header">
-      <h1>닝쿠전용 로그인페이지 (십련아!!)</h1>
+      <h1>에러로그인페이지 (십련아!!)</h1>
     </div>
     <div class="form-content">
       <form action="/blogin" method="post">

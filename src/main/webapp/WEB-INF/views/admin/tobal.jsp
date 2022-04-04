@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="${pageContext.request.contextPath}/resources/css/admin.css">
 <head>
 <meta charset="UTF-8">
-<title>Insert title here</title>
+<title>나브링 어드민</title>
 
 </head>
 <body>
@@ -38,17 +38,7 @@
  				<input type="hidden" id="array" name="array">
  				<input type="button" value="선택등록" class="btn btn-primary" onclick="deleteValue();">
                     <table class="listTbl fixed">
-               <colgroup>
-                            <col width="30"><!-- checkbox -->
-                            <col width="100">
-                            <col width="100">
-                            <col width="50">
-                             <col width="100">
-                            <col width="100">
-                            <col width="200">
-                             <col width="100">
-   
-                          </colgroup>
+          
                         
                         <tbody>
                             <tr align="center" bgcolor="#5e718f">
@@ -57,10 +47,11 @@
                                 <th class="listTitle">레벨</th>
                                 <th class="listTitle">직업</th>
                                 <th class="listTitle">마지막토벌전</th>
+                                <th class="listTitle">신청토벌전</th>
                                 <th class="listTitle">기여도 달성</th>
                                 <th class="listTitle">특이사항</th>
                                 <th class="listTitle">경고횟수</th>
-                                <th class="listTitle">경고사유</th>
+                            
                            	
                             </tr>
                             
@@ -85,6 +76,9 @@
                                 <td class="listData">
                                 	<c:out value="${memberList.real_tobal}" />
                                 </td>
+                                  <td class="listData">
+                                	<c:out value="${memberList.last_tobal}" />
+                                </td>
                                 <td class="listData">
                                 	<c:out value="${memberList.sooncut}" /> 
                                 </td>
@@ -94,13 +88,7 @@
                                 <td class="listData">
                                 	<c:out value="${memberList.yellowCard}" /> 
                                 </td>
-                                <td class="listData">
-                                	<c:out value="${memberList.yellowCardWhy}" /> 
-                                </td>
-                                  <td class="listData">
-                 
-                                </td>
-                                
+                    
                             </tr>
                             
                            </c:forEach>

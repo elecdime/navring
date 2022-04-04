@@ -20,6 +20,6 @@
 
 	<%@include file="inc/top.jsp" %>
 	!!!!!!!Error!!!!!!!!!
-	근데 무시해도되는 에러니깐 걍 페이지 계속쓰셈
+	
 </body>
 </html>

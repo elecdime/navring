@@ -145,6 +145,7 @@
 
 	<update id="tobalck">
 		UPDATE user SET  real_tobal = (SELECT last_tobal FROM user WHERE id = #{id})
+		where id = #{id}
 	</update>
 		<select id="cut" resultType="com.bbs.domain.User">
 	   <![CDATA[

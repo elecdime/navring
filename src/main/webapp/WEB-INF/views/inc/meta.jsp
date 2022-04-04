@@ -12,3 +12,5 @@
 <style>
 
 </style>
+<link rel="icon" type="image/x-icon" href="/resources/img/fv.ico">
+<link rel="shortcut icon" type="image/x-icon" href="/resources/img/fv.ico">
