@@ -21,6 +21,27 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 	<title>나브링</title>
+<style type="text/css">
+.nabring {
+	position: relative;
+	left: 25%;
+	height: 90%;
+	opacity: 30%;
+}
+.navdeco {
+z-index: 1;
+}
+.nabring2 {
+	position: relative;
+	left: 27.5%;
+	height: 90%;
+}
+.nabring3 {
+	position: relative;
+	left: 28%;
+	height: 90%;
+}
+</style>
 </head>
 
  <div class="container">
@@ -50,27 +71,27 @@
 					
 					<section class="st-panel" id="st-panel-1">
 					  <%@include file="inc/top.jsp" %>
-						<div class="st-deco" data-icon="H"></div>
+						<div class="st-deco navdeco" data-icon="H"></div>
 						<h2>소개</h2>
-						<img src="/resources/img/11.png">
+						<img class="nabring" src="/resources/img/11.png">
 						</p>
 				
 					</section>
 					
 					<section class="st-panel st-color" id="st-panel-2">
 					  <%@include file="inc/top.jsp" %>
-						<div class="st-deco" data-icon="2"></div>
+						<div class="st-deco navdeco" data-icon="2"></div>
 						<h2>길드컨텐츠</h2>
-					<img src="/resources/img/12.png">
+					<img class="nabring2"  src="/resources/img/12.png">
 					
 				
 					</section>
 					
 					<section class="st-panel" id="st-panel-3">
 					  <%@include file="inc/top.jsp" %>
-						<div class="st-deco" data-icon="B"></div>
+						<div class="st-deco navdeco" data-icon="B"></div>
 							<h2>가입문의</h2>
-						<img src="/resources/img/13.png">
+						<img class="nabring3" src="/resources/img/13.png">
 					
 					</section>
 					
