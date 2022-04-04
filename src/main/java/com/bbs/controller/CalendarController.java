@@ -467,14 +467,14 @@ public class CalendarController {
 
 	    list.add(dis.get(0).getUserid());
 
-	    for(int i = 0 ; i < dis.size() ; i ++) {
-	 
-	    	jsonob.put("leader",dis.get(i).getUserid());
-	        jsonob.put("content",dis.get(i).getTitle());
-	        jsonob.put("event", dis.get(i).getCateName());
-	        jsonob.put("date", dis.get(i).getStart1());
 	
-		    List<Calendar> dsm = service.dsm(dis.get(i).getId());
+	 
+	    	jsonob.put("leader",dis.get(0).getUserid());
+	        jsonob.put("content",dis.get(0).getTitle());
+	        jsonob.put("event", dis.get(0).getCateName());
+	        jsonob.put("date", dis.get(0).getStart1());
+	
+		    List<Calendar> dsm = service.dsm(dis.get(0).getId());
 		
 		    for(int j = 0 ; j < dsm.size() ; j ++) {
 		    	list.add(dsm.get(j).getUserid());
@@ -483,7 +483,7 @@ public class CalendarController {
 		    	logger.debug("sysout"+list);
 		
 		    }
-	    }
+	    
 		  //  System.out.println(i+"번쨰반복"+jsonob);
 		
 	    

@@ -22,7 +22,7 @@
 	<select id="calView" resultType="com.bbs.domain.Calendar">
 		SELECT a.id, a.title,
 		TO_char(start1, 'YYYY-MM-DD" "HH24:MI') start1,
-		ALLDAY,c.cateMax,cateMin,
+		ALLDAY,a.cateMax,cateMin,
 		TEXTCOLOR,
 		BACKGROUNDCOLOR,
 		BORDERCOLOR ,
@@ -103,10 +103,12 @@
 		,lv = #{lv}
 		,role=#{role}
 		WHERE ID =#{id}
+		
 	</update>
 
 	<select id="radelist" resultType="com.bbs.domain.Rade">
 		SELECT * FROM rade WHERE calid = #{calid}
+		order by id
 	</select>
 
 	<insert id="readjoin">

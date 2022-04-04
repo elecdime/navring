@@ -104,34 +104,39 @@
 		</c:forEach>
 		
 		 <c:choose>
-                    	<c:when test ="${user == null}">
-	                    
-	                           <label><b style="background-color: red;">로그인후 레이드 참가가능</b>
-	                                 </label>
-     							
-                    	</c:when>
-                    	<c:otherwise>
-                   
-      <form action="/radejoin" method="POST">
- 	 <input type="hidden" id="nickname" name="nickname" value="${user.nickname}" readonly="readonly" />	
- 	 <input type="hidden" name="n" value="${cal.id}" />
+				<c:when test="${user == null}">
 
- 	 <c:if test ="${cal.leader_id != user.name}">
+					<label><b style="background-color: red;">로그인후 레이드 참가가능</b>
+					</label>
 
- 	 
- 	 
- 	 		<c:if test="${cal.cateMax > cal.cateMin}">
- 	 		<labe>참가하는 직업</labe><input type="text" id = "job" name ="job" placeholder="직업을 입력하십쇼" >
- <button type="submit" id="join" class="btn btn-primary">참가</button>
- 
+				</c:when>
+				<c:otherwise>
 
- </c:if>
-       </c:if>
-                    	</c:otherwise>
-                    	</c:choose>
+					<form action="/radejoin" method="POST">
+						<input type="hidden" id="nickname" name="nickname"
+							value="${user.nickname}" readonly="readonly" /> <input
+							type="hidden" name="n" value="${cal.id}" />
 
- </form>
-</span>
+						<c:if test="${cal.leader_id != user.name}">
+
+
+
+							<c:if test="${cal.cateMax > cal.cateMin}">
+								<label>참가하는 직업</label>
+								<input type="text" id="job" name="job" placeholder="직업을 입력하십쇼">
+								<button type="submit" id="join" class="btn btn-primary">참가</button>
+
+
+							</c:if>
+
+						</c:if>
+						</form>
+							</c:otherwise>
+							
+						</c:choose>
+			
+					
+			 </span>
 <p></p>
  <button type="button" id="list_btn" class="btn btn-primary">목록</button>
  	 <c:if test ="${cal.leader_id == user.name}">
