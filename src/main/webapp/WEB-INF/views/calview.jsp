@@ -92,13 +92,31 @@
 <label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
 <span><c:forEach items="${rd}" var="rd">
 	<input type="hidden" value="${rd.id}">
-	<label name ="nickname">${rd.nickname}(직업:${rd.job}), </label>
-	 <c:if test ="${rd.userid == user.id}">
-
+	<table class="table table-bordered">
+	<thead>
+	<tr>
+	<th>닉네임</th>
+	<th>직업</th>
+	<th>참여취소 </th>
+	</tr>
+	</thead>
+	<tbody>
+	<tr>
+	<td>${rd.nickname}</td>
+	<td>${rd.job}</td>
+	<td > <c:if test ="${rd.userid == user.id}">
+	
 	   <button type="button" onclick="location.href='/deljoin?n=${rd.id}&s=${rd.calid}';" class="btn btn-warning test-button1" name ="test-button1" id ="test-button1">참가취소</button>
   <button type="button" id="gorade_btn" class="btn btn-primary" onclick="location.href='/gorade?n=${cal.id}'; alert('참가호출이후 나오는 520에러페이지는 정상작동중인거에요');">참가자 호출</button>
  	 <input type="hidden" name="s" value="${rade.id}" />
-	 </c:if>
+	 </c:if></td>
+	
+	</tbody>
+	</tr>
+	 </table>
+	
+	
+
 	
 	
 		</c:forEach>
