@@ -58,7 +58,7 @@
 	<!-- 파일 upload 폴더 만들고 업로드 경로(물리적경로) 지정 -->
 	<beans:bean id="uploadPath" class="java.lang.String">
 		<beans:constructor-arg
-			value="C:\Users\ARIMOA\eclipse-workspace\bbs\src\main\webapp\resources"></beans:constructor-arg>
+			value="/var/lib/tomcat9/webapps/ROOT/resources"></beans:constructor-arg>
 
 	</beans:bean>
 

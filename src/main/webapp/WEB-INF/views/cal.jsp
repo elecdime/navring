@@ -32,7 +32,7 @@
                 },
     	
     	droppable : false,
-    	editable : true, 
+    	editable : false, 
     	
     	
 

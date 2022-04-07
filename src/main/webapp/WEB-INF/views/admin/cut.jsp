@@ -49,12 +49,12 @@
                             <col width="100">
                             <col width="100">
                             <col width="50">
-                             <col width="100">
+                             <col width="30">
                             <col width="100">
                             <col width="200">
                              <col width="100">
                             <col width="300">
-                          <col width="10">
+                          <col width="150">
                         </colgroup>
                         
                         <tbody>
@@ -64,11 +64,11 @@
                                 <th class="listTitle">레벨</th>
                                 <th class="listTitle">직업</th>
                                 <th class="listTitle">마지막토벌전</th>
-                                <th class="listTitle">기여도 달성</th>
+                                <th class="listTitle">기여도 달성 여부</th>
                                 <th class="listTitle">특이사항</th>
                                 <th class="listTitle">경고횟수</th>
                                 <th class="listTitle">경고사유</th>
-                                 <th class="listTitle">기여도 채움여부</th>
+                                 <th class="listTitle">가입일</th>
                             </tr>
                             
                            <!-- jspl -->
@@ -102,7 +102,7 @@
                                 	<c:out value="${memberList.yellowCardWhy}" /> 
                                 </td>
                                   <td class="listData">
-                                	<c:out value="${memberList.sooncut}" /> 
+                                	<c:out value="${memberList.regdate}" /> 
                                 </td>
                                 
                             </tr>

@@ -153,6 +153,7 @@
 	   <![CDATA[
 			SELECT * FROM user WHERE DATE(real_tobal) <=date(subdate(now(), INTERVAL 15 DAY)) 
 		AND date(last_tobal) <= date(NOW() ) or sooncut = 'N'
+		and regdate != DATE_ADD(NOW(), INTERVAL -7 day) AND regdate != DATE_ADD(NOW(), INTERVAL +7 DAY)
 		]]>
 	</select>
 	<select id="updateuser" resultType="com.bbs.domain.User">
@@ -231,10 +232,16 @@
 		WHERE a.id = #{id}
 	
 	</select>
+
+
 		<select id="blogin" resultType="com.bbs.domain.User">
 	
 	SELECT *  from user
   	where aid=#{aid} and apw= #{apw}
 	
 	</select>
+	
+
+	
+	
 </mapper>

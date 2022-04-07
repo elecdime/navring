@@ -75,6 +75,7 @@
                              <col width="100">
                             <col width="100">
                           <col width="100">
+                           <col width="100">
                         </colgroup>
                         
                         <tbody>
@@ -88,6 +89,7 @@
                                 <th class="listTitle">특이사항</th>
                                 <th class="listTitle">경고횟수</th>
                                 <th class="listTitle">경고사유</th>
+                                    <th class="listTitle">가입날짜</th>
                 			   <th class="col-md-2">수정</th>
                             </tr>
                             
@@ -118,6 +120,9 @@
                         <td class="editable" contenteditable="true">${memberList.yellowCard} </td>
                                 <td class="listData">
                                 	<c:out value="${memberList.yellowCardWhy}" /> 
+                                </td>
+                                 <td class="listData">
+                                	<c:out value="${memberList.regdate}" /> 
                                 </td>
                                 <td>
                             <a href ="/admin/update?n=${memberList.id}" class="btn btn-primary" type="button" >수정</a>

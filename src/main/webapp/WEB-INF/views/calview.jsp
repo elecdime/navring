@@ -90,16 +90,19 @@
  </pre>
 </div>
 <label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
-<span><c:forEach items="${rd}" var="rd">
-	<input type="hidden" value="${rd.id}">
 	<table class="table table-bordered">
 	<thead>
 	<tr>
-	<th>닉네임</th>
-	<th>직업</th>
-	<th>참여취소 </th>
+	<th class="col-xs-2 col-md-8">닉네임</th>
+	<th class="col-xs-1 col-md-2">직업</th>
+	<th class="col-xs-1 col-md-2">참여취소 </th>
 	</tr>
 	</thead>
+	
+
+<span><c:forEach items="${rd}" var="rd">
+	<input type="hidden" value="${rd.id}">
+
 	<tbody>
 	<tr>
 	<td>${rd.nickname}</td>
@@ -109,18 +112,19 @@
 	   <button type="button" onclick="location.href='/deljoin?n=${rd.id}&s=${rd.calid}';" class="btn btn-warning test-button1" name ="test-button1" id ="test-button1">참가취소</button>
   <button type="button" id="gorade_btn" class="btn btn-primary" onclick="location.href='/gorade?n=${cal.id}'; alert('참가호출이후 나오는 520에러페이지는 정상작동중인거에요');">참가자 호출</button>
  	 <input type="hidden" name="s" value="${rade.id}" />
-	 </c:if></td>
-	
+	 </c:if>
+	 </td>
+		</tr>
 	</tbody>
-	</tr>
-	 </table>
+
+	
 	
 	
 
 	
 	
 		</c:forEach>
-		
+		 </table>
 		 <c:choose>
 				<c:when test="${user == null}">
 
@@ -141,7 +145,7 @@
 
 							<c:if test="${cal.cateMax > cal.cateMin}">
 								<label>참가하는 직업</label>
-								<input type="text" id="job" name="job" placeholder="직업을 입력하십쇼">
+								<input type="text" id="job" name="job" placeholder="참여하시는 직업  ">
 								<button type="submit" id="join" class="btn btn-primary">참가</button>
 
 
