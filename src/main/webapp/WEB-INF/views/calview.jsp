@@ -74,9 +74,9 @@
 <div class="abcd border" >
 
 				
-		
-
- <pre >${cal.content}
+ <pre>	
+ ${cal.content} 
+ 
  
  
  
@@ -88,6 +88,7 @@
 
  
  </pre>
+
 </div>
 <label>공대장:(${cal.leader_id})    참여자 목록(${cal.cateMin}/${cal.cateMax}): </label>
 	<table class="table table-bordered">
@@ -139,20 +140,12 @@
 							value="${user.nickname}" readonly="readonly" /> <input
 							type="hidden" name="n" value="${cal.id}" />
 
-						<c:if test="${cal.leader_id != user.name}">
-
-
-
-							<c:if test="${cal.cateMax > cal.cateMin}">
-								<label>참가하는 직업</label>
+						<label>참가하는 직업</label>
 								<input type="text" id="job" name="job" placeholder="참여하시는 직업  ">
 								<button type="submit" id="join" class="btn btn-primary">참가</button>
 
 
-							</c:if>
-
-						</c:if>
-						</form>
+ 		</form>
 							</c:otherwise>
 							
 						</c:choose>

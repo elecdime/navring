@@ -116,20 +116,22 @@ public class CalendarController {
 		HttpSession session = request.getSession();
 		com.bbs.domain.User users = (com.bbs.domain.User) session.getAttribute("user");
 		rade.setUserid(users.getId().toString());
-		System.out.println(users.getId());
-		System.out.println(rade.getUserid());
+	
 		users.set_id(_id);
 		
 		String nk = users.getId().toString();
-		System.out.println(users.getId().toString());
-		System.out.println(nk);
-			if(nickcheek.toString().contains(nk)) {
-				System.out.println("중복참여 불가");
+		String nick = users.getName().toString();
+
+		
+		System.out.println(nick.equals(cal.getLeader_id()) );
+
+			if(nickcheek.toString().contains(nk) || nick.equals(cal.getLeader_id()) || cal.getCateMax() <= cal.getCateMin()) {
+				System.out.println("중복참여  , 정원초과, 공대장 등등 아무튼 참여불가");
 				response.setContentType("text/html; charset=UTF-8");
 				 
 				PrintWriter out = response.getWriter();
 				 
-				out.println("<script>alert('중복참여 ㄴㄴ'); location.href='/calview?n="+id+"';</script>");
+				out.println("<script>alert('중복참여  , 정원초과, 본인이 글싼사람 이면 아무튼 참여불가능'); location.href='/calview?n="+id+"';</script>");
 				 
 				out.flush();
 
