@@ -7,7 +7,7 @@
 <meta property="og:title" content="나브링">
 <meta property="og:description" content="로스트아크 길드 나브링 의 웹사이트">
 <meta property="og:url" content="http://nabring.kr">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 
 <style>
 
