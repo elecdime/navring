@@ -23,4 +23,130 @@ public class User {
     private String searchCulumn; //컬럼
 	private String searchText; // 텍스트
 	private String subdate,aid,apw,regdate;
+	public Object getId() {
+		return id;
+	}
+	public void setId(Object id) {
+		this.id = id;
+	}
+	public Object getUsername() {
+		return username;
+	}
+	public void setUsername(Object username) {
+		this.username = username;
+	}
+	public Object getNickname() {
+		return nickname;
+	}
+	public void setNickname(Object nickname) {
+		this.nickname = nickname;
+	}
+	public Object getName() {
+		return name;
+	}
+	public void setName(Object name) {
+		this.name = name;
+	}
+	public Object getLv() {
+		return lv;
+	}
+	public void setLv(Object lv) {
+		this.lv = lv;
+	}
+	public Object getRole() {
+		return role;
+	}
+	public void setRole(Object role) {
+		this.role = role;
+	}
+	public Object get_id() {
+		return _id;
+	}
+	public void set_id(Object _id) {
+		this._id = _id;
+	}
+	public String getLast_tobal() {
+		return last_tobal;
+	}
+	public void setLast_tobal(String last_tobal) {
+		this.last_tobal = last_tobal;
+	}
+	public String getIssu() {
+		return issu;
+	}
+	public void setIssu(String issu) {
+		this.issu = issu;
+	}
+	public int getYellowCard() {
+		return yellowCard;
+	}
+	public void setYellowCard(int yellowCard) {
+		this.yellowCard = yellowCard;
+	}
+	public String getYellowCardWhy() {
+		return yellowCardWhy;
+	}
+	public void setYellowCardWhy(String yellowCardWhy) {
+		this.yellowCardWhy = yellowCardWhy;
+	}
+	public String getReal_tobal() {
+		return real_tobal;
+	}
+	public void setReal_tobal(String real_tobal) {
+		this.real_tobal = real_tobal;
+	}
+	public String getSooncut() {
+		return sooncut;
+	}
+	public void setSooncut(String sooncut) {
+		this.sooncut = sooncut;
+	}
+	public int getMemberCount() {
+		return MemberCount;
+	}
+	public void setMemberCount(int memberCount) {
+		MemberCount = memberCount;
+	}
+	public int getA() {
+		return a;
+	}
+	public void setA(int a) {
+		this.a = a;
+	}
+	public String getSearchCulumn() {
+		return searchCulumn;
+	}
+	public void setSearchCulumn(String searchCulumn) {
+		this.searchCulumn = searchCulumn;
+	}
+	public String getSearchText() {
+		return searchText;
+	}
+	public void setSearchText(String searchText) {
+		this.searchText = searchText;
+	}
+	public String getSubdate() {
+		return subdate;
+	}
+	public void setSubdate(String subdate) {
+		this.subdate = subdate;
+	}
+	public String getAid() {
+		return aid;
+	}
+	public void setAid(String aid) {
+		this.aid = aid;
+	}
+	public String getApw() {
+		return apw;
+	}
+	public void setApw(String apw) {
+		this.apw = apw;
+	}
+	public String getRegdate() {
+		return regdate;
+	}
+	public void setRegdate(String regdate) {
+		this.regdate = regdate;
+	}
 }

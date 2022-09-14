@@ -150,25 +150,43 @@ public class CalServcieImpl implements CalenService {
 	}
 
 	@Override
+	public void delcal(String id) {
+		// TODO Auto-generated method stub
+		dao.delcal(id);
+
+	}
+
+	@Override
+	public void delcal2(String id) {
+		// TODO Auto-generated method stub
+		dao.delcal2(id);
+
+	}
+
+	@Override
 	public List<Calendar> discord() {
 		// TODO Auto-generated method stub
 		return dao.discord();
 	}
+
 	@Override
 	public List<Calendar> dsm(int id) {
 		// TODO Auto-generated method stub
 		return dao.dsm(id);
 	}
-	 public admin loginCheck(admin dto) {
-		 
-		 return dao.loginCheck(dto);
-	 }
-	 @Override
+
+	public admin loginCheck(admin dto) {
+
+		return dao.loginCheck(dto);
+	}
+
+	@Override
 	public List<Calendar> dis(String id) {
 		// TODO Auto-generated method stub
 		return dao.dis(id);
 	}
-	 @Override
+
+	@Override
 	public User boginCheck(User dto) {
 		// TODO Auto-generated method stub
 		return dao.dloginCheck(dto);

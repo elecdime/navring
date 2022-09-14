@@ -171,6 +171,12 @@
 	<delete id="deljoin">
 		DELETE FROM rade WHERE id = #{id}
 	</delete>
+		<delete id="delcal">
+		DELETE FROM rade WHERE calid = #{id}
+	</delete>
+		<delete id="delcal2">
+		DELETE FROM calendar WHERE id = #{id}
+	</delete>
 	<update id="min">
 	UPDATE calendar set
 		CATEMIN = (SELECT CATEMIN-1 FROM

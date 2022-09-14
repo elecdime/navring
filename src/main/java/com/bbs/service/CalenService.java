@@ -53,6 +53,10 @@ public interface CalenService {
     public User updateuser(String id);
     public void userupdate(User user);
     public void deljoin(String id);
+    public void delcal(String id);
+
+    public void delcal2(String id);
+
     public void min(String id);
     public List<Calendar> discord();
 	public List<Calendar> dsm(int id);

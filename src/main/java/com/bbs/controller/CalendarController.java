@@ -140,8 +140,8 @@ public class CalendarController {
 				
 			}
 			else {
-				if(cal.getCateCode().equals("101")) {
-					System.out.println("토벌전참여");
+				if(cal.getCateCode().equals("101") || cal.getCateCode().equals("102")) {
+					System.out.println("토벌전참여,점령전");
 					service.last_tobal(users);
 				}
 				System.out.println("토벌전 미참여");
@@ -170,8 +170,8 @@ public class CalendarController {
 		String access_Token = "";
 		String refresh_Token = "";
 		String reqURL = "https://discord.com/api/oauth2/token";
-		String client_id = "894943429283446814";
-		String client_secret = "M0jsQBmIRNAzMemKH63rQz8h1qqHQdMf";
+		String client_id = "1009730532147482704";
+		String client_secret = "pi2zQeNNTs7Nav-SV54DcnJ9uNM89Xlj";
 		String grant_type = "authorization_code";
 
 		String redirect_uri = "http://nabring.kr/users/login/redirect";
@@ -577,5 +577,15 @@ public class CalendarController {
 
 
     }
-	    
+	@RequestMapping(value = "/delcal", method = RequestMethod.GET)
+	public String del(@RequestParam("n") String id, Model model, Calendar cal, Rade rade,HttpServletRequest request) throws Exception {
+	
+	service.delcal(id);
+	service.delcal2(id);
+	
+	
+	return "redirect:/cal";
+
+		
+	}    
 }

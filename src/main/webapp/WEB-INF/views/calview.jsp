@@ -14,7 +14,6 @@
   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-  <script src="//ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
    <script src="${pageContext.request.contextPath}/resources/js/common.js"></script>
   
   
@@ -38,7 +37,24 @@
 
 
 </script> 
-
+<div class="modal modal-alert fade" id="deleteModal" data-backdrop="static" tabindex="-1" role="dialog" aria-labelledby="deleteModal" aria-hidden="true">
+   <div class="modal-dialog" role="document">
+      <div class="modal-content">
+         <div class="modal-header">
+            <h5 id="exampleModalAlertWarningLabel" class="modal-title">
+               <i class="fa fa-bullhorn text-warning mr-1"></i> 데이터 삭제
+            </h5>
+         </div>
+         <div class="modal-body">
+            <p>삭제된 데이터는 복구가 불가능합니다.<br>정말 삭제하시겠습니까?</p>
+         </div>
+         <div class="modal-footer">
+            <button type="button" class="btn btn-danger" id="btnDeleteConfirm" onclick="location.href='/delcal?n=${cal.id}'; alert('삭제완료');" data-dismiss="modal">삭제</button>
+            &nbsp;<button type="button" class="btn btn-secondary" data-dismiss="modal">취소</button>
+         </div>
+      </div>
+   </div>
+</div>
 
 
 
@@ -156,7 +172,8 @@
  <button type="button" id="list_btn" class="btn btn-primary">목록</button>
  	 <c:if test ="${cal.leader_id == user.name}">
  	  <button type="button" id="gorade_btn" class="btn btn-primary" onclick="location.href='/gorade?n=${cal.id}'; alert('참가호출이후 나오는 520에러페이지는 정상작동중인거에요');">참가자 호출</button>
- 	
+ 	  <button type="button" id="btn_del" class="btn btn-danger">삭제</button>
+
  	
  	 </c:if>
  
@@ -182,6 +199,11 @@
 		alert("참가취소를 여러번 누르지 말아주세요 ");		
 			
 	});
+
+$('#btn_del').on('click',function(){
+   $('#deleteModal').modal('show');
+
+});
 	</script>
 <script type="text/javascript">
 

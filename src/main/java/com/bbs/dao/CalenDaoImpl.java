@@ -126,6 +126,18 @@ public void min(String id) {
 	sql.update(namespace+".min",id);
 }
 @Override
+public void delcal(String id) {
+	// TODO Auto-generated method stub
+	sql.delete(namespace+".delcal",id);
+
+}
+@Override
+public void delcal2(String id) {
+	// TODO Auto-generated method stub
+	sql.delete(namespace+".delcal2",id);
+
+}
+@Override
 public List<Calendar> discord() {
 	// TODO Auto-generated method stub
 	return sql.selectList(namespace+".discord");
